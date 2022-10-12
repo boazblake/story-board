@@ -1,10 +1,26 @@
-import { defineConfig } from "vite";
+import {defineConfig} from "vite"
+import {flowPlugin, esbuildFlowPlugin} from "@bunchtogether/vite-plugin-flow"
+import path from "path"
 
 export default defineConfig({
-  // Uncomment to use JSX:
-  // esbuild: {
-  //   jsx: "transform",
-  //   jsxFactory: "m",
-  //   jsxFragment: "'['",
-  // },
+  optimizeDeps: {esbuildOptions: {plugins: [esbuildFlowPlugin()]}},
+  plugins: [flowPlugin(),],
+  resolve: {
+    alias: {
+      stream: "mithril-stream",
+      m: "mithril",
+      "@": path.resolve(__dirname, "./src"),
+      // "assets": path.resolve(__dirname, "./assets"),
+      // "Models": path.resolve(__dirname, "./app/Models"),
+      // "Utils": path.resolve(__dirname, "./app/Utils"),
+      // "Layouts": path.resolve(__dirname, "./app/Layouts"),
+      // "Pages": path.resolve(__dirname, "./app/Pages"),
+    },
+  },
+  build: {outDir: "docs"},
+  server: {
+    port: 3001,
+    open: true,
+  },
+  base: './'
 });
