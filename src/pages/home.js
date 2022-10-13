@@ -59,6 +59,6 @@ export const Home = {
 
       ),
 
-      m('.w3-half', m(Resume))
+      m('.w3-half.w3-margin-bottom', m(Resume))
     ),
 }
