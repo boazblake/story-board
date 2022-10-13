@@ -146,7 +146,10 @@ export const Portfolio = () => {
         state.status == "loaded" &&
         m('.w3-row.w3-grid.overflow', {
           style: { height: '80vh' }
-        }, mdl.portfolio.reposList.map((url) => m(Repo, { url, mdl })))
+        },
+          m('img', { src: '/images/baca.webp' })
+          // mdl.portfolio.reposList.map((url) => m(Repo, { url, mdl }))
+        )
       ),
   }
 }

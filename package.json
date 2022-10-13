@@ -9,8 +9,7 @@
   "dependencies": {
     "@bunchtogether/vite-plugin-flow": "^1.0.2",
     "@types/node": "^18.8.4",
-    "mithril": "^2.0.4",
-    "pdfjs-dist": "^2.16.105"
+    "mithril": "^2.0.4"
   },
   "devDependencies": {
     "@types/mithril": "^2.0.8",

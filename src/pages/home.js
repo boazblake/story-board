@@ -1,51 +1,8 @@
 import m from 'mithril'
-import { AnimateChildren, fadeInUp, Animate, popIn } from "@/styles"
-import { log, randomPause, Pause } from "@/Utils"
-// import { Walkabout } from "components"
-
-const links = [
-  {
-    href: "https://github.com/boazblake",
-    src: "images/github.svg",
-    target: "_blank",
-  },
-  {
-    href: "https://www.linkedin.com/in/boazblake/",
-    src: "images/linkedin.svg",
-    target: "_blank",
-  },
-  { href: "/resume", src: "images/cv.webp" },
-  { href: "/portfolio", src: "images/applications.svg" },
-]
-
-const Link = () => {
-  let state = {
-    hover: false,
-  }
-  return {
-    view: ({ attrs: { href, src, target } }) =>
-      m(
-        target ? "a" : m.route.Link,
-        {
-          onmouseenter: () => (state.hover = true),
-          onmouseleave: () => (state.hover = false),
-          oncreate: Animate(popIn, randomPause),
-          target: target ? "_blank" : "",
-          href,
-        },
-        m("img", {
-          style: {
-            margin: "2px",
-            height: "50px",
-            width: "50px",
-            transition: "transform .1s ease-in",
-            ...(state.hover && { transform: "skewY(10deg)" }),
-          },
-          src,
-        })
-      ),
-  }
-}
+import { Resume } from '@/components/resume'
+import { Links } from '@/components/links'
+import { AnimateChildren, fadeInUp } from "@/styles"
+import { Pause } from "@/Utils"
 
 const calcSize = ({ settings: { profile } }) => {
   switch (profile) {
@@ -61,49 +18,47 @@ const calcSize = ({ settings: { profile } }) => {
 export const Home = {
   view: ({ attrs: { mdl } }) =>
     m(
-      ".w3-container",
+      ".w3-row.overflow",
       {
-        style: { maxHeight: "80vh" },
+        style: { height: "90vh" },
         oncreate: AnimateChildren(fadeInUp, Pause(0.05)),
       },
-
-
-      m(
-        ".w3-row",
-        m('.w3-half', m("img#me", {
+      m('.w3-half.w3-container.w3-mobile',
+        m("img#me.w3-block.w3-content", {
           style: {
             ...calcSize(mdl),
             transition: " all 1s ease-out;",
           },
           src: "images/me.webp",
-        })),
+        }),
+
         m(
-          "p.w3-half",
+          "a.w3-block.w3-center",
+
+          m("p.w3-row",
+            m('.w3-col', "https://boazblake.github.io/identity"),
+            m('.w3-col', '347-420-3251')
+          ),
+          m("p",
+            "Motivated - Self Driven - JS Developer"
+          ),
+
+        ),
+        m(Links),
+
+        m(
+          "p.w3-block.w3-content",
           {
             style: {
               color: "black",
-              fontSize: "1.4rem",
             },
           },
           "Front-End developer with half a decade of industry experience building a variety of different applications using a multitude of different frameworks and languages."
-        ),),
+        ),
 
-      m(
-        "a",
-        {
-          href: "mailto:boazblake@protonMail.com",
-          style: {
-            color: "black",
-            padding: "4px",
-            margin: "4px",
-            fontSize: "1rem",
-          },
-        },
-        "BoazBlake @ protonMail dot com"
+
       ),
-      m(
-        ".column-end",
-        links.map(({ href, src, target }) => m(Link, { href, src, target }))
-      )
+
+      m('.w3-half', m(Resume))
     ),
 }

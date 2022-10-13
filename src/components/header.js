@@ -1,58 +1,32 @@
 import m from 'mithril'
-import { AnimateChildren } from "@/styles/index"
-import { slideInDown } from "@/styles/animations"
-import { Asterisk } from "./asterisk"
-import { nameFromRoute, randomPause, isSideBarActive } from "@/Utils.js"
+// import { nameFromRoute, randomPause, isSideBarActive } from "@/Utils.js"
 
 export const Header = {
   view: ({ attrs: { mdl } }) =>
     m(
-      "header.w3-bar",
-      {
-        style: {
-          transitionDuration: 2000,
-          backgroundColor: isSideBarActive(mdl) ? "black" : "white",
-        },
-      },
-      m(
-        m.route.Link,
-        {
-          href: "/home",
-          id: "logo-header",
-          class: 'w3-left',
-        },
+      "header.w3-row",
+      m('.w3-half',
         m(
           "h1.typewriter type-writer",
           {
-            style: {
-              color: isSideBarActive(mdl) ? "white" : "black",
-            },
+            class: 'w3-content',
+            id: "logo-header",
             oncreate: ({ dom }) =>
             (dom.onanimationend = () =>
               setTimeout(() => dom.classList.remove("type-writer"))),
           },
           m("code", "{Boaz Blake}")
+        ),
+      ),
+      m('.w3-half.w3-center',
+        m(
+          'a.w3-button',
+          {
+            download: 'Boaz_Blake_Resume.pdf',
+            href: 'files/resume.pdf'
+          },
+          'Download Resume'
         )
       ),
-      mdl.settings.profile === "desktop"
-        ? m(
-          "nav.w3-right",
-          {
-            oncreate: AnimateChildren(slideInDown, randomPause),
-          },
-          mdl.routes
-            .filter((r) => r !== m.route.get())
-            .map((route) =>
-              m(
-                m.route.Link,
-                {
-                  class: "w3-bar-item",
-                  href: route,
-                },
-                nameFromRoute(route)
-              )
-            )
-        )
-        : m(Asterisk, { mdl }),
-    ),
+    )
 }

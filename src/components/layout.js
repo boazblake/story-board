@@ -1,22 +1,13 @@
 import m from 'mithril'
-import { Animate } from "@/styles/index"
-import { sideBarIn, slideOutRight } from "@/styles/animations"
-import { Header, SideBar } from "@/components"
+import { Header } from "@/components"
 
 export const Layout = () => {
   return {
-    view: ({ attrs: { mdl }, children }) =>
+    view: ({ children, attrs: { mdl } }) =>
       m(
-        "#app",
-        m(Header, { mdl }),
-        children,
-        mdl.status.sidebar &&
-        mdl.settings.profile !== "desktop" &&
-        m(SideBar, {
-          // oncreate: Animate(sideBarIn()),
-          // onbeforeremove: Animate(slideOutRight),
-          mdl,
-        })
+        "#app.w3-display-container",
+        m('.w3-display-top.w3-block', m(Header, { mdl })),
+        m('.w3-container', children),
       ),
   }
 }
