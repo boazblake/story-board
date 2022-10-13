@@ -41,6 +41,7 @@ export const Home = {
 
           m("p.w3-row",
             m('.w3-col', "https://boazblake.github.io/identity"),
+            m('.w3-col', "boazblake@protonMail.com"),
             m('.w3-col', '347-420-3251')
           ),
           m("p",
@@ -51,7 +52,7 @@ export const Home = {
         m(Links),
 
         m(
-          "p.w3-block.w3-content",
+          "p.w3-block.w3-content.w3-large",
           {
             style: {
               color: "black",
