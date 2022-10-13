@@ -18,12 +18,16 @@ const calcSize = ({ settings: { profile } }) => {
 export const Home = {
   view: ({ attrs: { mdl } }) =>
     m(
-      ".w3-row.overflow",
+      ".w3-row.w3-display-container.overflow",
       {
-        style: { height: "90vh" },
-        oncreate: AnimateChildren(fadeInUp, Pause(0.05)),
+        style: { height: "80vh" },
+        oncreate: ({ dom }) => {
+          mdl.dom = dom
+          AnimateChildren(fadeInUp, Pause(0.05))({ dom })
+        },
+        onscroll: e => mdl.scrollPos = e.target.scrollTop
       },
-      m('.w3-half.w3-container.w3-mobile',
+      m('.w3-half.w3-container.w3-mobile.sticky',
         m("img#me.w3-block.w3-content", {
           style: {
             ...calcSize(mdl),
@@ -59,6 +63,8 @@ export const Home = {
 
       ),
 
-      m('.w3-half.w3-margin-bottom', m(Resume))
+      m('.w3-half.w3-margin-bottom', m(Resume)),
+
+
     ),
 }

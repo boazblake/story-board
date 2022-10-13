@@ -78,17 +78,17 @@ const resumeDto = [
 
 export const Resume = {
   view: () =>
-    m('.w3-display-container.overflow.w3-mobile', { style: { height: '90vh' } },
+    m('.w3-display-container.w3-white',
       resumeDto.map(dto => m('article',
         m('h3.sticky.w3-white', dto.heading),
         dto.data.map(data =>
-          m('.', m('.w3-cell-row.w3-mobile',
-            m('.w3-cell.italic', data.title),
-            m('.w3-cell', data.location),
-            m('.w3-cell', data.date)),
+          m('.', m('.w3-cell-row',
+            m('.w3-mobile.w3-cell.italic', data.title),
+            m('.w3-mobile.w3-cell', data.location),
+            m('.w3-mobile.w3-cell', data.date)),
             m('p.w3-margin-left.indent', data.descriptions.map(description => m('p', description))))
         )
       )
-      )
+      ),
     )
 }

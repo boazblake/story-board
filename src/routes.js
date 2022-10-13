@@ -9,7 +9,6 @@ const routes = (mdl) => {
     "/home": {
       onmatch: (_, b) => {
         mdl.slug = b
-        mdl.status.sidebar = false
         window.scrollTo(0, 0)
       },
       render: () =>
