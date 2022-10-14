@@ -60,6 +60,7 @@ a {
 }
 
 #app {
+  height: 100vh;
   padding-bottom: calc(1em + env(safe-area-inset-bottom));
 }
 
