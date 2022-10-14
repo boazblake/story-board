@@ -78,7 +78,7 @@ const resumeDto = [
 
 export const Resume = {
   view: () =>
-    m('.w3-display-container.w3-white',
+    m('.w3-display-container.w3-white', { style: { height: '100%' } },
       resumeDto.map(dto => m('article',
         m('h3.sticky.w3-white', dto.heading),
         dto.data.map(data =>

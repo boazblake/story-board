@@ -40,9 +40,9 @@ export const Home = {
           "a.w3-block.w3-center",
 
           m("p.w3-row",
-            m('.w3-col', "https://boazblake.github.io/identity"),
-            m('.w3-col', "boazblake@protonMail.com"),
-            m('.w3-col', '347-420-3251')
+            m('a.w3-col', { href: "https://boazblake.github.io/identity", target: '-blank' }, "https://BoazBlake.Github.Io/identity"),
+            m('a.w3-col', { href: "mailto:boazblake@protonMail.com" }, "BoazBlake@ProtonMail.com"),
+            m('a.w3-col', { href: 'tel:347-420-3251' }, m('.w3-btn.w3-hover-text-blue', 'Lets Talk !'))
           ),
           m("p",
             "Motivated - Self Driven - JS Developer"
