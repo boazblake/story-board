@@ -92,7 +92,7 @@ export const Resume = {
       ),
 
       m('.w3-block.w3-center',
-        m('button.w3-margin-top.w3-btn.w3-border.w3-border-red.w3-circle.w3-white.w3-is-center', {
+        m('button.w3-margin-bottom.w3-btn.w3-border.w3-border-red.w3-circle.w3-white.w3-is-center', {
           onclick: () => {
             mdl.dom.scrollTo({
               top: 0,
@@ -102,7 +102,6 @@ export const Resume = {
           }, style: {
             opacity: `clamp(0,${mdl.scrollPos / 1700},1)`,
             // position: 'relative',
-            //  bottom: '150px'
             // `${mdl.scrollPos / 14}px`
           }
         }, '^')),
