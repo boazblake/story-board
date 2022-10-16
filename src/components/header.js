@@ -84,8 +84,8 @@ export const Header = {
           'a.w3-button',
           {
             download: 'Boaz_Blake_Resume.pdf',
-            href: 'files/resume.pdf',
-            // onclick: () => downloadPDF(mdl)
+            // href: 'files/resume.pdf',
+            onclick: () => downloadPDF(mdl)
           },
           'Download Resume'
         )

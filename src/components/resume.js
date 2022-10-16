@@ -68,7 +68,7 @@ const resumeDto = [
     heading: 'Other Info',
     data: [
       {
-        descriptions: ['Married father of one daughter, and a dog. I enjoy spending time with my family, the outdoors and my freedoms.'],
+        descriptions: ['Married father of one daughter, and a dog. I enjoy spending time with my family, the outdoors and my freedoms.', 'Webmaster for <a class="w3-border-bottom" target="_blank" href="https://www.BonhamAcres.org">www.BonhamAcres.org</a>, the neighborhood community website that I built using mithrilJS on the frontend client and Express for the backend proxy.'],
       },
 
     ]
@@ -86,7 +86,7 @@ export const Resume = {
             m('.w3-mobile.w3-cell.italic', data.title),
             m('.w3-mobile.w3-cell', data.location),
             m('.w3-mobile.w3-cell', data.date)),
-            m('p.w3-margin-left.indent', data.descriptions.map(description => m('p', description))))
+            m('p.w3-margin-left.indent', data.descriptions.map(description => m('p', m.trust(description)))))
         )
       )
       ),
@@ -97,7 +97,7 @@ export const Resume = {
             left: 0,
             behavior: 'smooth'
           })
-        }, style: { opacity: `clamp(0,${mdl.scrollPos / 2500},1)`, position: 'relative', bottom: `${mdl.scrollPos / -1500}px` }
+        }, style: { opacity: `clamp(0,${mdl.scrollPos / 1700},1)`, position: 'relative', bottom: `${mdl.scrollPos / 10}px` }
       }, '^'))
     )
 }

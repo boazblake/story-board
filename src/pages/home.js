@@ -42,7 +42,7 @@ export const Home = {
           m("p.w3-row",
             m('a.w3-col', { href: "https://boazblake.github.io/identity", target: '-blank' }, "https://BoazBlake.Github.Io/identity"),
             m('a.w3-col', { href: "mailto:boazblake@protonMail.com" }, "BoazBlake@ProtonMail.com"),
-            m('a.w3-col', { href: 'tel:347-420-3251' }, m('.w3-btn.w3-hover-text-blue', 'Lets Talk !'))
+            m('a.w3-col', "347-420-3251")
           ),
           m("p",
             "Motivated - Self Driven - JS Developer"
