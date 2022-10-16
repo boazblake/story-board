@@ -71,9 +71,9 @@ a {
   transition-duration: 0.6s;
 }
 
-.header-text {
-  width: 80%;
-}
+/* .header-text {
+  width: 300px;
+} */
 
 .typewriter {
   overflow: hidden; /* Ensures the content is not revealed until the animation */
@@ -108,10 +108,10 @@ a {
   }
 }
 
-#logo-header {
+/* #logo-header {
   height: 80px;
   max-width: 300px;
-}
+} */
 
 .indent {
   text-indent: 12px;

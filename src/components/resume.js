@@ -13,7 +13,7 @@ const resumeDto = [
       {
         title: 'Front End Web Developer ',
         location: 'Empyrean Benefits Solution | Houston, Tx',
-        date: 'Aug 2016 – April -2019',
+        date: 'August 2016 – April 2019',
         descriptions: ['Building in-house applications on demand from scratch as well as porting existing C# PHP and .NET platform/framework and other JS frameworks into one application framework using Typescript and within a functional paradigm.', 'Part of a team that built from scratch an application that needed to be able to onboard hundreds of employees from hundreds of companies that incorporated an access point for the employee, the company HR rep and also for customer service.']
       },
     ]
@@ -24,7 +24,7 @@ const resumeDto = [
       {
         title: 'Front End Web Development',
         location: 'The Iron Yard | Houston, Tx',
-        date: 'Feb 2016 - April 2016',
+        date: 'February 2016 - April 2016',
         descriptions: ['Intensive 3-month course on HTML, JS and CSS with an emphasis on SOLID principles of OOP.I supplemented my learning with David J. Malan’s Harvard CS50 course as well as reading everything I can by Douglas Crockford, Alan Kay, and studying Functional Programming and Lambda-calculus through Brian Lonsdorf FP course and Bartosz Milewski category theory course. ', 'Built a fully functioning responsive Event organizer using ReactJS and mongoDB.'],
       },
       {
@@ -59,7 +59,7 @@ const resumeDto = [
       {
         title: 'Israel Defense Forces, Anti-Terrorist Officer/Bodyguard.',
         location: 'Israel',
-        date: 'Oct 2000 – Dec 2006',
+        date: 'October 2000 – December 2006',
         descriptions: ['Served as a Paratrooper in the IDF before working as anti-terrorist officer and provided close protection services for individuals and teams traveling throughout Israel.']
       },
     ]
@@ -77,8 +77,8 @@ const resumeDto = [
 
 
 export const Resume = {
-  view: () =>
-    m('.w3-display-container.w3-white', { style: { height: '100%' } },
+  view: ({ attrs: { mdl } }) =>
+    m('#resume.w3-display-container.w3-white', { style: { height: '100%' } },
       resumeDto.map(dto => m('article',
         m('h3.sticky.w3-white', dto.heading),
         dto.data.map(data =>
@@ -90,5 +90,14 @@ export const Resume = {
         )
       )
       ),
+      m('.w3-display-bottommiddle', m('button.w3-margin-top.w3-btn.w3-border.w3-border-red.w3-circle.w3-white', {
+        onclick: () => {
+          mdl.dom.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+          })
+        }, style: { opacity: `clamp(0,${mdl.scrollPos / 2500},1)`, position: 'relative', bottom: `${mdl.scrollPos / -1500}px` }
+      }, '^'))
     )
 }
