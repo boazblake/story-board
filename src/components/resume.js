@@ -47,7 +47,7 @@ const resumeDto = [
       {
         title: 'Tactical Firearms Instructor',
         location: 'Top Gun Range | Houston Tx',
-        date: 'August 2016',
+        date: 'January 2016 - August 2016',
         descriptions: ['Educate public and private sector market on all aspects of gun ownership and usage.', ' Focus on tactical application with integration of armed and unarmed situations.'],
       },
       {
@@ -59,7 +59,7 @@ const resumeDto = [
       {
         title: 'Israel Defense Forces, Anti-Terrorist Officer/Bodyguard.',
         location: 'Israel',
-        date: 'October 2000 – December 2006',
+        date: 'October 2000 – December 2005',
         descriptions: ['Served as a Paratrooper in the IDF before working as anti-terrorist officer and provided close protection services for individuals and teams traveling throughout Israel.']
       },
     ]
