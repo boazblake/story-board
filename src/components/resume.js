@@ -89,21 +89,6 @@ export const Resume = {
             m('p.w3-margin-left.indent', data.descriptions.map(description => m('p', m.trust(description)))))
         )
       ),
-      ),
-
-      m('.w3-block.w3-center',
-        m('button.w3-margin-bottom.w3-btn.w3-border.w3-border-red.w3-circle.w3-white.w3-is-center', {
-          onclick: () => {
-            mdl.dom.scrollTo({
-              top: 0,
-              left: 0,
-              behavior: 'smooth'
-            })
-          }, style: {
-            opacity: `clamp(0,${mdl.scrollPos / 1700},1)`,
-            // position: 'relative',
-            // `${mdl.scrollPos / 14}px`
-          }
-        }, '^')),
+      )
     )
 }

@@ -63,9 +63,25 @@ export const Home = {
 
 
       ),
-
       m('.w3-half', m(Resume, { mdl })),
+      // m('.w3-display-bottom',
+      m('button.sticky.w3-btn.w3-border.w3-border-red.w3-circle.w3-white', {
+        onclick: () => {
+          mdl.dom.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+          })
+        }, style: {
+          zIndex: 1000,
+          opacity: `clamp(0,${mdl.scrollPos / 1700},1)`,
+          position: 'relative',
+          left: '85vw',
+          bottom: `clamp(10%, ${(mdl.scrollPos)}%, 90%)`
+        }
+      }, '^')
+      // )
+      ,
 
-
-    ),
+    )
 }
