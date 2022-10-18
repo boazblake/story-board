@@ -47,7 +47,8 @@ a {
 }
 
 .overflow {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .italic {
