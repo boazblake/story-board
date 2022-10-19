@@ -87,7 +87,7 @@ export const Header = {
           },
           'Download Resume',
         ),
-        m('button.sticky.w3-btn.w3-border.w3-border-red.w3-circle.w3-white', {
+        m('button.sticky.w3-btn.w3-border.w3-border-red.w3-circle.w3-white.w3-hide-medium.w3-hide-large', {
           onclick: () => {
             mdl.dom.scrollTo({
               top: 0,
