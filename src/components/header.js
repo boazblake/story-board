@@ -87,8 +87,23 @@ export const Header = {
             href: 'files/resume.pdf',
             // onclick: () => downloadPDF(mdl)
           },
-          'Download Resume'
-        )
+          'Download Resume',
+        ),
+        m('button.sticky.w3-btn.w3-border.w3-border-red.w3-circle.w3-white', {
+          onclick: () => {
+            mdl.dom.scrollTo({
+              top: 0,
+              left: 0,
+              behavior: 'smooth'
+            })
+          }, style: {
+            opacity: `clamp(0, ${mdl.scrollPos / 1500}, 1)`,
+            position: 'absolute',
+            left: '85vw',
+            top: '80vh',
+            zIndex: 1000,
+          }
+        }, '^')
       ),
     )
 }

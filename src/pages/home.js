@@ -15,10 +15,31 @@ const calcSize = ({ settings: { profile } }) => {
   }
 }
 
+const algoUp = n => 1 / n * 2300
+const algoDown = n => n - 1 / (n - 100) * 2300
+
+// const calcTop = mdl => {
+//   // console.log(mdl)
+//   mdl.calcTop = mdl.scrollPos <= 120
+//     ? algoUp(mdl.scrollPos)
+//     : mdl.scrollPos >= 120
+//       ? algoDown(mdl.scrollPos) : 0
+
+//   return `${mdl.calcTop}%`//`clamp(186%, ${pos}%, 235%)`
+// }
+
+const setupIntersectionObs = ({ dom }) => {
+  const obs = new IntersectionObserver((changes) => {
+    console.log(changes[0].boundingClientRect.y)
+  })
+
+  obs.observe(dom)
+}
+
 export const Home = {
   view: ({ attrs: { mdl } }) =>
     m(
-      ".w3-row.w3-display-container.overflow",
+      ".w3-row.overflow.",
       {
         style: { height: "80vh" },
         oncreate: ({ dom }) => {
@@ -28,6 +49,7 @@ export const Home = {
         onscroll: e => mdl.scrollPos = e.target.scrollTop
       },
       m('.w3-half.w3-container.w3-mobile.sticky',
+        { style: { height: '65vh' } },
         m("img#me.w3-block.w3-content", {
           style: {
             ...calcSize(mdl),
@@ -63,25 +85,12 @@ export const Home = {
 
 
       ),
-      m('.w3-half', m(Resume, { mdl })),
-      // m('.w3-display-bottom',
-      m('button.sticky.w3-btn.w3-border.w3-border-red.w3-circle.w3-white', {
-        onclick: () => {
-          mdl.dom.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth'
-          })
-        }, style: {
-          zIndex: 1000,
-          opacity: `clamp(0,${mdl.scrollPos / 1700},1)`,
-          position: 'relative',
-          left: '85vw',
-          bottom: `clamp(10%, ${(mdl.scrollPos)}%, 90%)`
-        }
-      }, '^')
-      // )
-      ,
+      m('.w3-half', m(Resume, {
+        oncreate: setupIntersectionObs,
+        mdl
+      })),
+
+
 
     )
 }
