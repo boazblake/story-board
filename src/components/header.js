@@ -64,19 +64,17 @@ export const Header = {
       "header.w3-row",
       m('.w3-half',
         m(
-          "h1",
+          "h1.typewriter type-writer",
           {
             class: 'w3-content w3-center',
             style: { maxWidth: '350px' },
 
           },
-          m("code", "{ "),
-          m("code.typewriter type-writer", {
+          m("code", {
             oncreate: ({ dom }) =>
             (dom.onanimationend = () =>
               setTimeout(() => dom.classList.remove("type-writer"))),
-          }, "Boaz Blake"),
-          m("code", " }")
+          }, "{ Boaz Blake }")
         ),
       ),
       m('.w3-half.w3-center',

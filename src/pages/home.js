@@ -15,26 +15,6 @@ const calcSize = ({ settings: { profile } }) => {
   }
 }
 
-const algoUp = n => 1 / n * 2300
-const algoDown = n => n - 1 / (n - 100) * 2300
-
-// const calcTop = mdl => {
-//   // console.log(mdl)
-//   mdl.calcTop = mdl.scrollPos <= 120
-//     ? algoUp(mdl.scrollPos)
-//     : mdl.scrollPos >= 120
-//       ? algoDown(mdl.scrollPos) : 0
-
-//   return `${mdl.calcTop}%`//`clamp(186%, ${pos}%, 235%)`
-// }
-
-const setupIntersectionObs = ({ dom }) => {
-  const obs = new IntersectionObserver((changes) => {
-    console.log(changes[0].boundingClientRect.y)
-  })
-
-  obs.observe(dom)
-}
 
 export const Home = {
   view: ({ attrs: { mdl } }) =>
@@ -85,12 +65,5 @@ export const Home = {
 
 
       ),
-      m('.w3-half', m(Resume, {
-        oncreate: setupIntersectionObs,
-        mdl
-      })),
-
-
-
-    )
+      m('.w3-half', m(Resume, { mdl })))
 }
