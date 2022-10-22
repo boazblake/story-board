@@ -17,5 +17,5 @@ export default defineConfig({
     port: 3001,
     open: true,
   },
-  base: '/identity/'
+  base: './identity/'
 });
