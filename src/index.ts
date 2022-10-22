@@ -27,4 +27,5 @@ const checkWidth = (winW: number) => {
 model.settings.profile = getProfile(winW)
 
 checkWidth(winW)
+m.route.prefix = ''
 m.route(root, "/", routes(model))
