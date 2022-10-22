@@ -6,7 +6,7 @@ import { Home } from "@/pages/index.js"
 
 const routes = (mdl) => {
   return {
-    "/identity": {
+    "/": {
       onmatch: (_, b) => {
         mdl.slug = b
         window.scrollTo(0, 0)
