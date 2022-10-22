@@ -31,7 +31,7 @@ const resumeDto = [
         title: 'PhD Human Space Exploration | Exercise Immunology (epigenetic inheritance) – Not Completed.',
         location: 'University of Houston | Houston, Tx',
         date: 'September 2011-May 2014',
-        descriptions: ['NASA HRP Grant #NNX12AF04G: Studied the effects of gravitational forces on the excitability of the spinal cord.', 'Studied the effects of exercise as a modulating factor on epigenetic inheritance.']
+        descriptions: ['<a class="w3-border-bottom" target="_blank" href="https://taskbook.nasaprs.com/tbp/index.cfm?action=public_query_taskbook_content&TASKID=9035">NASA HRP Grant #NNX12AF04G:</a> Studied the effects of gravitational forces on the excitability of the spinal cord.', 'Studied the effects of exercise as an exogenous environmental stress factor on epigenetic inheritance.']
       },
       {
         title: 'Bachelor of Science in Sports Medicine  | cum laude ',
@@ -68,7 +68,7 @@ const resumeDto = [
     heading: 'Other Info',
     data: [
       {
-        descriptions: ['Married father of one daughter, and a dog. I enjoy spending time with my family, the outdoors and my freedoms.', 'Webmaster for <a class="w3-border-bottom" target="_blank" href="https://www.BonhamAcres.org">www.BonhamAcres.org</a>, the neighborhood community website that I built using mithrilJS on the frontend client and Express for the backend proxy.'],
+        descriptions: ['Married father of one daughter, and a dog. I enjoy spending time with my family, the outdoors and my freedoms.', 'Webmaster for <a class="w3-border-bottom" target="_blank" href="https://www.BonhamAcres.org">www.BonhamAcres.org</a>, the neighborhood community website that I built using <a class="w3-border-bottom" target="_blank" href="https://mithril.js.org/">mithrilJS</a> for the frontend client and   <a class="w3-border-bottom" target="_blank" href="https://expressjs.com/">ExpressJS</a> for the backend proxy.'],
       },
 
     ]
