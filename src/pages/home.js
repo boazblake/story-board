@@ -54,7 +54,7 @@ export const Home = {
         m(Links),
 
         m(
-          "p.w3-block.w3-content.w3-large",
+          "p.w3-block.w3-content",
           {
             style: {
               color: "black",
