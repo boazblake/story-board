@@ -8,10 +8,10 @@ const calcSize = ({ settings: { profile } }) => {
   switch (profile) {
     case "phone":
       return { width: "200px", height: "200px" }
-    case "tablet":
+    default:
       return { width: "250px", height: "250px" }
-    case "desktop":
-      return { width: "300px", height: "300px" }
+    // case "desktop":
+    //   return { width: "300px", height: "300px" }
   }
 }
 
