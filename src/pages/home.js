@@ -29,7 +29,7 @@ export const Home = {
         onscroll: e => mdl.scrollPos = e.target.scrollTop
       },
       m('.w3-half.w3-container.w3-mobile.sticky',
-        { style: { height: '65vh' } },
+        { style: { height: '72vh' } },
         m("img#me.w3-block.w3-content", {
           style: {
             ...calcSize(mdl),
