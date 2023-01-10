@@ -1,5 +1,6 @@
 import m from 'mithril'
-
+import { AnimateChildren, fadeInUp } from "@/styles"
+import { Pause } from "@/Utils"
 const resumeDto = [
   {
     heading: 'Professional Experience',
@@ -76,9 +77,17 @@ const resumeDto = [
 ]
 
 
+
+
 export const Resume = {
   view: ({ attrs: { mdl } }) =>
-    m('#resume.w3-display-container.w3-white', { style: { height: '100%' } },
+    m('#resume', {
+      oncreate: ({ dom }) => {
+        mdl.dom = dom
+        AnimateChildren(fadeInUp, Pause(0.05))({ dom })
+      },
+      style: { height: '100%' }
+    },
       resumeDto.map(dto => m('article',
         m('h3.sticky.w3-white', dto.heading),
         dto.data.map(data =>
