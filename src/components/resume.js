@@ -82,11 +82,8 @@ const resumeDto = [
 export const Resume = {
   view: ({ attrs: { mdl } }) =>
     m('#resume', {
-      oncreate: ({ dom }) => {
-        mdl.dom = dom
-        AnimateChildren(fadeInUp, Pause(0.05))({ dom })
-      },
-      style: { height: '100%' }
+      oncreate: ({ dom }) => AnimateChildren(fadeInUp, Pause(0.05))({ dom })
+      ,
     },
       resumeDto.map(dto => m('article',
         m('h3.sticky.w3-white', dto.heading),

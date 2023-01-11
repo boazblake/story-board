@@ -37,7 +37,7 @@
 html,
 body {
   margin: 0;
-  height: 100vh;
+  height: 100dvh;
 }
 
 
@@ -62,7 +62,7 @@ a {
 }
 
 #app {
-  height: 100vh;
+  height: 100dvh;
   padding-bottom: calc(1em + env(safe-area-inset-bottom));
 }
 
