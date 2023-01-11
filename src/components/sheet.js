@@ -15,7 +15,7 @@ const touchPosition = (event) =>
   event.touches ? event.touches[0] : event
 
 const onDragStart = state => (e) => {
-  state.dragPos = touchPosition(e).pageY
+  state.scrollTop(touchPosition(e).pageY)
   state.isDragging = true
   state.selectable()
   e.target.style.cursor = document.body.style.cursor = "grabbing"
@@ -23,15 +23,16 @@ const onDragStart = state => (e) => {
 
 const onDragMove = state => (e) => {
   if (state.isDragging) {
-    if (state.dragPos === undefined) return
+    console.log(state.sheetHeight(),
+      e.target.scrollTop,)
+    if (!state.scrollTop()) return
     const y = touchPosition(e).pageY
-    const deltaY = state.dragPos - y
+    const deltaY = state.scrollTop() - y
     const deltaHeight = (deltaY / window.innerHeight * 100)
     state.sheetHeight(state.sheetHeight() + deltaHeight)
     setSheetHeight(state)
-    // m.redraw()
-
   }
+  m.redraw()
 }
 
 const onDragEnd = (state) => (e) => {
@@ -53,6 +54,7 @@ const onDragEnd = (state) => (e) => {
     state.hideSheet(false)
     setSheetHeight(state)
   }
+  m.redraw()
 }
 
 export const Sheet = () => {
@@ -60,7 +62,8 @@ export const Sheet = () => {
     scrollTop: Stream(0),
     sheetHeight: Stream(13),
     hideSheet: Stream(true),
-    selectable: Stream('')
+    selectable: Stream(''),
+    isDragging: false,
   }
   window.addEventListener("mousemove", onDragMove(state))
   window.addEventListener("touchmove", onDragMove(state))
@@ -89,12 +92,18 @@ export const Sheet = () => {
               },
               onscroll: e => {
                 console.log(
+                  state.sheetHeight(),
                   e.target.scrollTop,
-                  e.target.scrollTop / 100,
-                  state.sheetHeight()
                 )
-                state.sheetHeight(e.target.scrollTop / 4)
+
+
+                e.target.scrollTop = e.target.scrollTop < 10 ? e.target.scrollTop * 2 : e.target.scrollTop
+
+                const delta = state.sheetHeight() > 300 ? state.sheetHeight() : e.target.scrollTop > 100 ? e.target.scrollTop / 6 : e.target.scrollTop / 4
+
+                state.sheetHeight(delta)
                 state.hideSheet(false)
+                return false
               },
 
             },

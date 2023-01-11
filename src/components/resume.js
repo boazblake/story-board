@@ -76,22 +76,29 @@ const resumeDto = [
   },
 ]
 
+const calcMargin = (state) => {
+  if (state.dom && state.dom.getBoundingClientRect().top > 0) {
+    return '0 1rem 0 0'
+  } else return '2rem'
+}
 
 
-
-export const Resume = {
-  view: ({ attrs: { mdl } }) =>
-    m('#resume', { oncreate: ({ dom }) => AnimateChildren(fadeInUp, Pause(0.05))({ dom }) },
-      resumeDto.map(dto => m('article',
-        m('h3.sticky.w3-white.glass', dto.heading),
-        dto.data.map(data =>
-          m('.', m('.w3-cell-row',
-            m('.w3-mobile.w3-cell.italic', data.title),
-            m('.w3-mobile.w3-cell', data.location),
-            m('.w3-mobile.w3-cell', data.date)),
-            m('p.w3-margin-left.indent', data.descriptions.map(description => m('p', m.trust(description)))))
+export const Resume = () => {
+  const state = { top: -20, dom: null }
+  return {
+    view: ({ attrs: { mdl } }) =>
+      m('#resume', { oncreate: ({ dom }) => { state.dom = dom; AnimateChildren(fadeInUp, Pause(0.05))({ dom }) } },
+        resumeDto.map(dto => m('article',
+          m('h3.sticky.w3-white.glass', { style: { margin: calcMargin(state), top: `${state.top}px` } }, dto.heading),
+          dto.data.map(data =>
+            m('.', m('.w3-cell-row',
+              m('.w3-mobile.w3-cell.italic', data.title),
+              m('.w3-mobile.w3-cell', data.location),
+              m('.w3-mobile.w3-cell', data.date)),
+              m('p.w3-margin-left.indent', data.descriptions.map(description => m('p', m.trust(description)))))
+          )
+        ),
         )
-      ),
       )
-    )
+  }
 }
