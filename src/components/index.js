@@ -1,6 +1,5 @@
 export * from "./resume.js"
 export * from "./header.js"
-export * from "./sidebar.js"
 export * from "./layout.js"
 export * from "./links.js"
 export * from "./sheet.js"

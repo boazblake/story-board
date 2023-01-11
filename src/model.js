@@ -3,6 +3,7 @@ import Stream from "mithril-stream"
 const model = {
   dom: null,
   state: {
+    selectable: Stream(''),
     dragPos: 0,
     hideSheet: Stream(false),
     sheetHeight: Stream(13),

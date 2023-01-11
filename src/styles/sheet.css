@@ -4,6 +4,15 @@
   --divider: #dcdcdc;
   --overlay: #888;
 }
+/*
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000;
+    --foreground: #fff;
+    --divider: #333;
+  }
+} */
+
 
 
 .sheet {
@@ -22,6 +31,11 @@
   transition: opacity 0.5s, visibility 0.5s;
 }
 
+.sheet[aria-hidden="true"] {
+  /* opacity: 0;
+  visibility: hidden; */
+  /* pointer-events: none; */
+}
 
 .sheet .overlay {
   position: absolute;
@@ -30,6 +44,7 @@
   right: 0;
   bottom: 0;
   z-index: -1;
+  /* background: var(--overlay); */
   opacity: 0.5;
 }
 
@@ -61,6 +76,10 @@
 
 .sheet .contents.fullscreen {
   border-radius: 0;
+}
+
+.sheet[aria-hidden="true"] .contents {
+  transform: translateY(90%);
 }
 
 .sheet .controls {

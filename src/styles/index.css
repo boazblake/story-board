@@ -73,9 +73,12 @@ a {
   transition-duration: 0.6s;
 }
 
-/* .header-text {
-  width: 300px;
-} */
+.glass {
+  top: -20px;
+  height: 100px;
+  background-color: rgba(245, 245, 248, .85);
+  backdrop-filter: blur(1px);
+}
 
 .typewriter {
   overflow: hidden; /* Ensures the content is not revealed until the animation */

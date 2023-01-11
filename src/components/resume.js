@@ -81,12 +81,9 @@ const resumeDto = [
 
 export const Resume = {
   view: ({ attrs: { mdl } }) =>
-    m('#resume', {
-      oncreate: ({ dom }) => AnimateChildren(fadeInUp, Pause(0.05))({ dom })
-      ,
-    },
+    m('#resume', { oncreate: ({ dom }) => AnimateChildren(fadeInUp, Pause(0.05))({ dom }) },
       resumeDto.map(dto => m('article',
-        m('h3.sticky.w3-white', dto.heading),
+        m('h3.sticky.w3-white.glass', dto.heading),
         dto.data.map(data =>
           m('.', m('.w3-cell-row',
             m('.w3-mobile.w3-cell.italic', data.title),

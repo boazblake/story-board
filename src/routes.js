@@ -2,7 +2,7 @@ import m from 'mithril'
 import { Layout } from "@/components"
 import { AnimatePage, } from "@/styles/index.js"
 import { slideInLeft, slideInRight } from "@/styles/animations.js"
-import { Home } from "@/pages/index.js"
+import { Home } from "@/pages/home.js"
 
 const routes = (mdl) => {
   return {

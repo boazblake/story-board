@@ -62,19 +62,17 @@ export const Header = {
   view: ({ attrs: { mdl } }) =>
     m(
       "header.w3-row",
-      m('.w3-half',
-        m(
-          "h1.typewriter type-writer",
-          {
-            oncreate: ({ dom }) =>
-            (dom.onanimationend = () =>
-              setTimeout(() => dom.classList.remove("type-writer"))),
-            class: 'w3-content w3-center',
-            style: { maxWidth: '350px' },
+      m(
+        "h1.typewriter type-writer",
+        {
+          oncreate: ({ dom }) =>
+          (dom.onanimationend = () =>
+            setTimeout(() => dom.classList.remove("type-writer"))),
+          class: 'w3-content w3-center',
+          style: { maxWidth: '350px' },
 
-          },
-          m("code", "{ Boaz Blake }")
-        ),
+        },
+        m("code", "{ Boaz Blake }")
       ),
       // m('.w3-half.w3-center',
       //   m(

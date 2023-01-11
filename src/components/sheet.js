@@ -1,77 +1,104 @@
 import m from 'mithril'
+import Stream from "mithril-stream"
 import '../styles/sheet.css'
 
-const setSheetHeight = (mdl) => {
-  const height = Math.max(13, Math.min(100, mdl.state.sheetHeight()))
+const setSheetHeight = (state) => {
+  const height = Math.max(13, Math.min(100, state.sheetHeight()))
   return `${height}vh`
 }
 
-const isFullScreen = mdl =>
-  mdl.state.sheetHeight() === 80 ? "fullscreen" : ""
+const isFullScreen = state =>
+  state.sheetHeight() >= 80 ? "fullscreen" : ""
 
-const isSelectable = mdl => mdl.state.selectable ? '' : 'not-selectable'
 
 const touchPosition = (event) =>
   event.touches ? event.touches[0] : event
 
-const onDragStart = mdl => (e) => {
-  mdl.state.dragPos = touchPosition(e).pageY
-  mdl.state.isDragging = true
-  mdl.state.selectable = (false)
+const onDragStart = state => (e) => {
+  state.dragPos = touchPosition(e).pageY
+  state.isDragging = true
+  state.selectable()
   e.target.style.cursor = document.body.style.cursor = "grabbing"
 }
 
-const onDragMove = mdl => (e) => {
-  if (mdl.state.isDragging) {
-    if (mdl.state.dragPos === undefined) return
+const onDragMove = state => (e) => {
+  if (state.isDragging) {
+    if (state.dragPos === undefined) return
     const y = touchPosition(e).pageY
-    const deltaY = mdl.state.dragPos - y
+    const deltaY = state.dragPos - y
     const deltaHeight = (deltaY / window.innerHeight * 100)
-    mdl.state.sheetHeight(mdl.state.sheetHeight() + deltaHeight)
-    setSheetHeight(mdl)
-    m.redraw()
+    state.sheetHeight(state.sheetHeight() + deltaHeight)
+    setSheetHeight(state)
+    // m.redraw()
 
   }
 }
 
-const onDragEnd = (mdl) => (e) => {
-  mdl.state.isDragging = false
-  mdl.state.selectable = (true)
+const onDragEnd = (state) => (e) => {
+  state.isDragging = false
+  state.selectable('not-selectable')
   e.target.style.cursor = document.body.style.cursor = ""
 
-  if (mdl.state.sheetHeight() < 25) {
-    mdl.state.sheetHeight(13)
-    mdl.state.hideSheet(true)
-  } else if (mdl.state.sheetHeight() > 75) {
-    mdl.state.sheetHeight(80)
-    mdl.state.hideSheet(false)
-    setSheetHeight(mdl)
+
+  if (state.sheetHeight() < 15) {
+    state.sheetHeight(13)
+    state.hideSheet(true)
+    setSheetHeight(state)
+  } else if (state.sheetHeight() > 75) {
+    // state.sheetHeight(80)
+    state.hideSheet(false)
+    setSheetHeight(state)
   } else {
-    mdl.state.sheetHeight(13)
-    setSheetHeight(mdl)
+    state.sheetHeight(50)
+    state.hideSheet(false)
+    setSheetHeight(state)
   }
 }
 
-export const Sheet = ({ attrs: { mdl } }) => {
-  window.addEventListener("mousemove", onDragMove(mdl))
-  window.addEventListener("touchmove", onDragMove(mdl))
+export const Sheet = () => {
+  const state = {
+    scrollTop: Stream(0),
+    sheetHeight: Stream(13),
+    hideSheet: Stream(true),
+    selectable: Stream('')
+  }
+  window.addEventListener("mousemove", onDragMove(state))
+  window.addEventListener("touchmove", onDragMove(state))
 
-  window.addEventListener("mouseup", onDragEnd(mdl))
-  window.addEventListener("touchend", onDragEnd(mdl))
-
+  window.addEventListener("mouseup", onDragEnd(state))
+  window.addEventListener("touchend", onDragEnd(state))
   return {
-    view: ({ attrs: { mdl }, children }) =>
-      m(".sheet#sheet", { ariaHidden: mdl.state.hideSheet(), role: "dialog" },
-        m(`.contents ${isFullScreen(mdl)}  }`,
+    view: ({ children }) =>
+      m(".sheet#sheet", { ariaHidden: state.hideSheet(), role: "dialog" },
+        m(`.contents ${isFullScreen(state)}  ${state.selectable()}`,
           {
-            style: { height: setSheetHeight(mdl) }
+            style: { height: setSheetHeight(state) }
           },
           m("header.controls", m(".draggable-area", {
-            onmousedown: onDragStart(mdl),
-            ontouchstart: onDragStart(mdl)
+            onmousedown: onDragStart(state),
+            ontouchstart: onDragStart(state)
           }, m(".draggable-thumb")),
           ),
-          m("main.body", children)
+          m("main.body",
+            {
+              oncreate: () => {
+                setTimeout(() => {
+                  state.hideSheet(false)
+                  m.redraw()
+                }, 1500)
+              },
+              onscroll: e => {
+                console.log(
+                  e.target.scrollTop,
+                  e.target.scrollTop / 100,
+                  state.sheetHeight()
+                )
+                state.sheetHeight(e.target.scrollTop / 4)
+                state.hideSheet(false)
+              },
+
+            },
+            children)
         )
       )
   }
