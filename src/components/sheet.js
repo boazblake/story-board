@@ -54,7 +54,6 @@ const onDragEnd = (state) => (e) => {
     state.hideSheet(false)
     setSheetHeight(state)
   }
-  m.redraw()
 }
 
 export const Sheet = () => {
