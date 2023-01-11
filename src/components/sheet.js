@@ -4,7 +4,7 @@ import '../styles/sheet.css'
 
 const setSheetHeight = (state) => {
   const height = Math.max(13, Math.min(100, state.sheetHeight()))
-  return `${height}vh`
+  return `${height}dvh`
 }
 
 const isFullScreen = state =>
@@ -16,44 +16,48 @@ const touchPosition = (event) =>
 
 const onDragStart = state => (e) => {
   state.scrollTop(touchPosition(e).pageY)
-  state.isDragging = true
+  state.isDragging(true)
   state.selectable()
-  e.target.style.cursor = document.body.style.cursor = "grabbing"
+  touchPosition(e).target.style.cursor = document.body.style.cursor = "grabber"
 }
 
 const onDragMove = state => (e) => {
-  if (state.isDragging) {
-    console.log(state.sheetHeight(),
-      e.target.scrollTop,)
-    if (!state.scrollTop()) return
+  if (state.isDragging()) {
+    touchPosition(e).target.style.cursor = document.body.style.cursor = "grabbing"
+    // console.log(
+    //   state.sheetHeight(),
+    //   state.scrollTop()
+    //   , touchPosition(e).pageY
+    // )
+    // if (!state.scrollTop()) return
     const y = touchPosition(e).pageY
     const deltaY = state.scrollTop() - y
-    const deltaHeight = (deltaY / window.innerHeight * 100)
-    state.sheetHeight(state.sheetHeight() + deltaHeight)
-    setSheetHeight(state)
+    const deltaHeight = Math.round(deltaY / window.innerHeight * 100)
+    state.sheetHeight(state.sheetHeight() + deltaHeight / 10)
   }
-  m.redraw()
 }
 
 const onDragEnd = (state) => (e) => {
-  state.isDragging = false
+  console.log('end')
+  state.isDragging(false)
   state.selectable('not-selectable')
-  e.target.style.cursor = document.body.style.cursor = ""
 
+  touchPosition(e).target.style.cursor = document.body.style.cursor = ""
 
   if (state.sheetHeight() < 15) {
     state.sheetHeight(13)
-    state.hideSheet(true)
-    setSheetHeight(state)
+    state.hideSheet(false)
+    // setSheetHeight(state)
   } else if (state.sheetHeight() > 75) {
-    // state.sheetHeight(80)
+    state.sheetHeight(100)
     state.hideSheet(false)
-    setSheetHeight(state)
+    // setSheetHeight(state)
   } else {
-    state.sheetHeight(50)
+    // state.sheetHeight(50)
     state.hideSheet(false)
-    setSheetHeight(state)
+    // setSheetHeight(state)
   }
+  // m.redraw()
 }
 
 export const Sheet = () => {
@@ -62,51 +66,54 @@ export const Sheet = () => {
     sheetHeight: Stream(13),
     hideSheet: Stream(true),
     selectable: Stream(''),
-    isDragging: false,
+    isDragging: Stream(false),
   }
-  window.addEventListener("mousemove", onDragMove(state))
-  window.addEventListener("touchmove", onDragMove(state))
 
-  window.addEventListener("mouseup", onDragEnd(state))
-  window.addEventListener("touchend", onDragEnd(state))
+
   return {
     view: ({ children }) =>
-      m(".sheet#sheet", { ariaHidden: state.hideSheet(), role: "dialog" },
+      m(".sheet#sheet", {
+        ariaHidden: state.hideSheet(), role: "dialog",
+        onmousemove: onDragMove(state),
+        ontouchmove: onDragMove(state),
+        onmouseup: onDragEnd(state),
+        ontouchend: onDragEnd(state),
+      },
         m(`.contents ${isFullScreen(state)}  ${state.selectable()}`,
           {
             style: { height: setSheetHeight(state) }
           },
           m("header.controls", m(".draggable-area", {
+            // onupdate: ({ dom }) => console.log(dom.scrollTop),
             onmousedown: onDragStart(state),
             ontouchstart: onDragStart(state)
           }, m(".draggable-thumb")),
           ),
           m("main.body",
             {
-              oncreate: () => {
+              oncreate: ({ dom }) => {
                 setTimeout(() => {
                   state.hideSheet(false)
-                  m.redraw()
+                  console.log(dom.scrollTop)
                 }, 1500)
               },
-              onscroll: e => {
-                console.log(
-                  state.sheetHeight(),
-                  e.target.scrollTop,
-                )
+              // onscroll: e => {
+              //   console.log(
+              //     state.sheetHeight(),
+              //     touchPosition(e).target.scrollTop,
+              //   )
 
 
-                e.target.scrollTop = e.target.scrollTop < 10 ? e.target.scrollTop * 2 : e.target.scrollTop
+              //   touchPosition(e).target.scrollTop = touchPosition(e).target.scrollTop < 10 ? touchPosition(e).target.scrollTop * 2 : touchPosition(e).target.scrollTop
 
-                const delta = state.sheetHeight() > 300 ? state.sheetHeight() : e.target.scrollTop > 100 ? e.target.scrollTop / 6 : e.target.scrollTop / 4
+              //   const delta = state.sheetHeight() > 300 ? state.sheetHeight() : touchPosition(e).target.scrollTop > 100 ? touchPosition(e).target.scrollTop / 6 : touchPosition(e).target.scrollTop / 4
 
-                state.sheetHeight(delta)
-                state.hideSheet(false)
-                return false
-              },
+              //   state.sheetHeight(delta)
+              //   state.hideSheet(false)
+              // },
 
             },
-            children)
+            m('', { class: state.isDragging() ? 'not-selectable' : '' }, children))
         )
       )
   }
