@@ -1,26 +1,71 @@
+/* Copyright (c) 2022 Ivan Teplov */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --background: #fff;
   --foreground: #000;
   --divider: #dcdcdc;
   --overlay: #888;
 }
-/*
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #000;
     --foreground: #fff;
     --divider: #333;
   }
-} */
+}
 
+html,
+body {
+  height: 100%;
+}
 
+body {
+  background: var(--background);
+  color: var(--foreground);
+
+  overflow: hidden;
+  line-height: 1.5;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+textarea,
+[contenteditable="true"] {
+  box-sizing: border-box;
+  padding: 1rem;
+
+  border-radius: 1rem;
+  border: 0.0625rem solid var(--divider);
+
+  font-family: inherit;
+  font-size: 1rem;
+
+  background: var(--background);
+  color: var(--foreground);
+}
+
+textarea {
+  resize: none;
+}
+
+button {
+  cursor: pointer;
+}
 
 .sheet {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  height: 90dvh;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -32,25 +77,23 @@
 }
 
 .sheet[aria-hidden="true"] {
-  /* opacity: 0;
-  visibility: hidden; */
-  /* pointer-events: none; */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .sheet .overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: -100;
+  left: -100;
+  right: 100;
   bottom: 0;
   z-index: -1;
-  /* background: var(--overlay); */
+  background: var(--overlay);
   opacity: 0.5;
 }
 
-.sheet .contents {
-  position: fixed;
-  bottom: 0;
+.sheet #contents {
   display: flex;
   flex-direction: column;
 
@@ -66,22 +109,22 @@
   transform: translateY(0);
 
   max-width: 70rem;
-  max-height: 100dvh;
-  height: 30dvh;
+  max-height: 100vh;
+  height: 30vh;
 
   box-sizing: border-box;
 }
 
-.sheet .contents:not(.not-selectable) {
+.sheet #contents:not(.not-selectable) {
   transition: var(--default-transitions), height 0.5s;
 }
 
-.sheet .contents.fullscreen {
+.sheet #contents.fullscreen {
   border-radius: 0;
 }
 
-.sheet[aria-hidden="true"] .contents {
-  transform: translateY(90%);
+.sheet[aria-hidden="true"] #contents {
+  transform: translateY(100%);
 }
 
 .sheet .controls {
@@ -109,7 +152,7 @@
 
 .sheet .body {
   flex-grow: 1;
-  height: 100dvh;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -121,12 +164,6 @@
   box-sizing: border-box;
 }
 
- .not-selectable {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+form {
+  gap: 1rem;
 }

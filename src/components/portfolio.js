@@ -1,4 +1,13 @@
 import m from 'mithril'
+
+const portfolioState = {
+  hideSheet: true,
+  sheetHeight: Math.min(50, 720 / window.innerHeight * 100),
+  dragPosition: undefined,
+  isDragging: false,
+  selectable: true,
+}
+
 const hasRepos = () => {
   let age = parseInt(localStorage.getItem("repos-date"))
   let now = Date.now()
@@ -106,7 +115,7 @@ const Repo = () => {
   }
 }
 
-export const Portfolio = () => {
+const Portfolio = () => {
   const state = {
     status: "loading",
     errors: {},
@@ -141,15 +150,20 @@ export const Portfolio = () => {
     view: ({ attrs: { mdl } }) =>
       m(
         ".w3-container",
+        m('h1', 'Projects'),
+        m('h2', 'random sample of projects'),
         state.status == "failed" && "Error fetching Repos ...",
         state.status == "loading" && m('.w3-panel', "Loading Repos ..."),
         state.status == "loaded" &&
         m('.w3-row.w3-grid.overflow', {
           style: { height: '80vh' }
         },
-          m('img', { src: '/images/baca.webp' })
-          // mdl.portfolio.reposList.map((url) => m(Repo, { url, mdl }))
+          m('img', { width: '100%', height: 'auto', src: '/images/baca.webp' }),
+          mdl.portfolio.reposList.map((url) => m(Repo, { url, mdl }))
         )
       ),
   }
 }
+
+
+export { Portfolio, portfolioState }

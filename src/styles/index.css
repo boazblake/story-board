@@ -38,7 +38,7 @@ html,
 body {
   margin: 0;
   height: 100dvh;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 
@@ -77,7 +77,6 @@ a {
 .glass {
     margin: 0 1rem 0 0;
     background-color: #ffffff7d;
-    margin: 2rem;
     border-radius: 12px;
     padding: 1rem;
     box-sizing: border-box;

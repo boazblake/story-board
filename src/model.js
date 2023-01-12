@@ -10,7 +10,7 @@ const model = {
     isLoading: false,
     loadingProgress: { max: 0, value: 0 },
     isLoggedIn: () => sessionStorage.getItem("token"),
-  },
+  }, portfolio: { reposList: [] },
   settings: { width: "", profile: "", inspector: "" },
 }
 

@@ -3,8 +3,8 @@ import Stream from "mithril-stream"
 import '../styles/sheet.css'
 
 const setSheetHeight = (state) => {
-  const height = Math.max(13, Math.min(100, state.sheetHeight()))
-  return `${height}dvh`
+  const height = Math.max(100, Math.min(window.innerHeight - 200, state.sheetHeight()))
+  state.dom.style.height = `${height}px`
 }
 
 const isFullScreen = state =>
@@ -23,39 +23,30 @@ const onDragStart = state => (e) => {
 
 const onDragMove = state => (e) => {
   if (state.isDragging()) {
+    e.stopPropagation()
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    touchPosition(e).target.style.scroll = 'auto'
     touchPosition(e).target.style.cursor = document.body.style.cursor = "grabbing"
-    // if (!state.scrollTop()) return
-    const y = touchPosition(e).pageY
-    const deltaY = (state.scrollTop() - y)
-    const deltaHeight = Math.round(deltaY / window.innerHeight * 100)
-    console.log(deltaHeight, state.sheetHeight())
-    const diff = deltaHeight > 0 ? 1.8 : -1.8
-    state.sheetHeight((state.sheetHeight() + diff))
+    console.log('tp', touchPosition(e), window.innerHeight - touchPosition(e).clientY)
+    state.sheetHeight(window.innerHeight - touchPosition(e).clientY)
+    setSheetHeight(state)
   }
 }
 
 const onDragEnd = (state) => (e) => {
   console.log('end', JSON.parse(JSON.stringify(state)))
+  document.body.style.scroll = 'auto'
+
   state.isDragging(false)
   state.selectable('not-selectable')
-
   touchPosition(e).target.style.cursor = document.body.style.cursor = ""
-
-  // if (state.sheetHeight() < 15) {
-  //   state.sheetHeight(13)
-  //   state.hideSheet(false)
-  // } else if (state.sheetHeight() > 75) {
-  //   state.sheetHeight(100)
-  //   state.hideSheet(false)
-  // } else {
-  //   state.hideSheet(false)
-  // }
 }
 
 export const Sheet = () => {
   const state = {
     scrollTop: Stream(0),
-    sheetHeight: Stream(13),
+    sheetHeight: Stream(Math.min(50, 720 / window.innerHeight * 100)),
     hideSheet: Stream(true),
     selectable: Stream(''),
     isDragging: Stream(false),
@@ -70,25 +61,22 @@ export const Sheet = () => {
         ontouchmove: onDragMove(state),
         onmouseup: onDragEnd(state),
         ontouchend: onDragEnd(state),
+        ontouchcancel: onDragEnd(state),
       },
         m(`.contents ${isFullScreen(state)}  ${state.selectable()}`,
-          {
-            style: { height: setSheetHeight(state) }
-          },
+          { oncreate: ({ dom }) => state.dom = dom, },
           m("header.controls", {
             onmousedown: onDragStart(state),
             ontouchstart: onDragStart(state)
-          },
-            m(".draggable-area",
-              m(".draggable-thumb")
-            ),
-          ),
+          }, m(".draggable-area", m(".draggable-thumb")),),
           m("main.body",
             {
-              oncreate: ({ dom }) => {
+              oncreate: () => {
                 setTimeout(() => {
                   state.hideSheet(false)
-                  console.log(dom.scrollTop)
+                  state.sheetHeight(Math.min(50, 720 / window.innerHeight * 100)
+                  )
+                  m.redraw()
                 }, .5)
               },
               // onscroll: e => {
