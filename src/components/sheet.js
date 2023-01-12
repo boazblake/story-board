@@ -24,40 +24,32 @@ const onDragStart = state => (e) => {
 const onDragMove = state => (e) => {
   if (state.isDragging()) {
     touchPosition(e).target.style.cursor = document.body.style.cursor = "grabbing"
-    // console.log(
-    //   state.sheetHeight(),
-    //   state.scrollTop()
-    //   , touchPosition(e).pageY
-    // )
     // if (!state.scrollTop()) return
     const y = touchPosition(e).pageY
-    const deltaY = state.scrollTop() - y
+    const deltaY = (state.scrollTop() - y)
     const deltaHeight = Math.round(deltaY / window.innerHeight * 100)
-    state.sheetHeight(state.sheetHeight() + deltaHeight / 10)
+    console.log(deltaHeight, state.sheetHeight())
+    const diff = deltaHeight > 0 ? 0.5 : -0.5
+    state.sheetHeight((state.sheetHeight() + diff))
   }
 }
 
 const onDragEnd = (state) => (e) => {
-  console.log('end')
+  console.log('end', JSON.parse(JSON.stringify(state)))
   state.isDragging(false)
   state.selectable('not-selectable')
 
   touchPosition(e).target.style.cursor = document.body.style.cursor = ""
 
-  if (state.sheetHeight() < 15) {
-    state.sheetHeight(13)
-    state.hideSheet(false)
-    // setSheetHeight(state)
-  } else if (state.sheetHeight() > 75) {
-    state.sheetHeight(100)
-    state.hideSheet(false)
-    // setSheetHeight(state)
-  } else {
-    // state.sheetHeight(50)
-    state.hideSheet(false)
-    // setSheetHeight(state)
-  }
-  // m.redraw()
+  // if (state.sheetHeight() < 15) {
+  //   state.sheetHeight(13)
+  //   state.hideSheet(false)
+  // } else if (state.sheetHeight() > 75) {
+  //   state.sheetHeight(100)
+  //   state.hideSheet(false)
+  // } else {
+  //   state.hideSheet(false)
+  // }
 }
 
 export const Sheet = () => {
@@ -83,11 +75,13 @@ export const Sheet = () => {
           {
             style: { height: setSheetHeight(state) }
           },
-          m("header.controls", m(".draggable-area", {
-            // onupdate: ({ dom }) => console.log(dom.scrollTop),
+          m("header.controls", {
             onmousedown: onDragStart(state),
             ontouchstart: onDragStart(state)
-          }, m(".draggable-thumb")),
+          },
+            m(".draggable-area",
+              m(".draggable-thumb")
+            ),
           ),
           m("main.body",
             {
@@ -95,7 +89,7 @@ export const Sheet = () => {
                 setTimeout(() => {
                   state.hideSheet(false)
                   console.log(dom.scrollTop)
-                }, 1500)
+                }, .5)
               },
               // onscroll: e => {
               //   console.log(
