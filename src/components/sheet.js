@@ -29,7 +29,7 @@ const onDragMove = state => (e) => {
     const deltaY = (state.scrollTop() - y)
     const deltaHeight = Math.round(deltaY / window.innerHeight * 100)
     console.log(deltaHeight, state.sheetHeight())
-    const diff = deltaHeight > 0 ? 0.5 : -0.5
+    const diff = deltaHeight > 0 ? 1.8 : -1.8
     state.sheetHeight((state.sheetHeight() + diff))
   }
 }
