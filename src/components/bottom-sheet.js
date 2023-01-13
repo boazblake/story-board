@@ -50,7 +50,7 @@ const onDragEnd = state => () => {
   state.isDragging = false
 }
 
-const resetState = ({ attrs: { state } }) => {
+const resetState = (state) => {
   console.log(state)
   state.sheetHeight = Math.min(50, 720 / window.innerHeight * 100)
   console.log(state)
@@ -66,6 +66,7 @@ const State = () => ({
 
 
 const BottomSheet = {
+
   view: ({ attrs: { state }, children }) =>
     m('#sheet.sheet',
       {
@@ -73,6 +74,7 @@ const BottomSheet = {
         ontouchmove: onDragMove(state),
         onmouseup: onDragEnd(state),
         ontouchend: onDragEnd(state),
+        onmouseleave: onDragEnd(state),
         ariaHidden: `${state.hideSheet}`,
         role: 'dialog',
       },

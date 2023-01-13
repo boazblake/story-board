@@ -48,5 +48,5 @@ const Link = () => {
 }
 
 export const Links = {
-  view: () => m(".w3-cell-row.w3-block.w3-center", links.map(({ href, src, target }) => m(Link, { href, src, target }))),
+  view: () => m(".w3-cell-row.w3-block.w3-center.w3-margin.w3-padding", links.map(({ href, src, target }) => m(Link, { href, src, target }))),
 }

@@ -30,7 +30,7 @@ const SheetBtn = {
 }
 
 const SheetBtns = {
-  view: () => m('.w3-cell-row.w3-block.w3-center',
+  view: () => m('.w3-cell-row.w3-block.w3-center.w3-margin.w3-padding',
     m('.w3-cell', m(SheetBtn, { title: 'Resume', action: () => resumeState.hideSheet = false })),
     m('.w3-cell', m(SheetBtn, { title: 'Portfolio', action: () => portfolioState.hideSheet = false }))
   )
@@ -70,7 +70,7 @@ export const Home = {
 
         ),
       ),
-      m('section.w3-half.w3-container',
+      m('section.w3-half.w3-container.overflow',
         m(
           "p.w3-large.w3-margin.w3-center",
           "Software engineer with half a decade of industry experience building a variety of different applications using a multitude of different frameworks and languages."
