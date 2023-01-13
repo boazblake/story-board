@@ -47,7 +47,7 @@ const getClassList = mdl => {
 export const Home = {
   view: ({ attrs: { mdl } }) =>
     m(`#home.${getClassList(mdl)}.w3-container`, { style: { height: '90dvh' } },
-      m('section.w3-half',
+      m('section.w3-half.overflow',
         m("img#me.w3-block.w3-content", {
           style: {
             ...calcImgSize(mdl),
@@ -59,7 +59,7 @@ export const Home = {
         m(
           "a.w3-block.w3-center",
 
-          m("p.w3-row",
+          m("p.w3-row.overflow",
             m('a.w3-col', { href: "https://boazblake.github.io/identity", target: '-blank' }, "https://BoazBlake.Github.Io/identity"),
             m('a.w3-col', { href: "mailto:boazblake@protonMail.com" }, "BoazBlake@ProtonMail.com"),
             m('a.w3-col', "347-420-3251")
