@@ -27,8 +27,8 @@ const Link = () => {
         target ? "a" : m.route.Link,
         {
           class: 'w3-cell',
-          onmouseenter: () => (state.hover = true),
-          onmouseleave: () => (state.hover = false),
+          // onmouseenter: () => (state.hover = true),
+          // onmouseleave: () => (state.hover = false),
           oncreate: Animate(popIn, randomPause),
           target: target ? "_blank" : "",
           href,
@@ -48,7 +48,5 @@ const Link = () => {
 }
 
 export const Links = {
-  view: ({ attrs: { mdl } }) =>
-    m('.w3-block.w3-center', m(".w3-cell-row", links.map(({ href, src, target }) => m(Link, { href, src, target }))
-    )),
+  view: () => m(".w3-cell-row.w3-block.w3-center", links.map(({ href, src, target }) => m(Link, { href, src, target }))),
 }
