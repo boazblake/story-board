@@ -52,13 +52,14 @@ const State = () => ({
 
 
 const BottomSheet = {
-  view: ({ attrs: { state }, children }) => m('', {
-    onmousemove: onDragMove(state),
-    ontouchmove: onDragMove(state),
-    onmouseup: onDragEnd(state),
-    ontouchend: onDragEnd(state)
-  }, m("#sheet.sheet",
-    { "aria-hidden": `${state.hideSheet}`, "role": "dialog", },
+  view: ({ attrs: { state }, children }) => m("#sheet.sheet",
+    {
+      onmousemove: onDragMove(state),
+      ontouchmove: onDragMove(state),
+      onmouseup: onDragEnd(state),
+      ontouchend: onDragEnd(state),
+      "aria-hidden": `${state.hideSheet}`, "role": "dialog",
+    },
     m(".overlay"),
     m(`#contents.${isFullScreen(state)} ${isSelectable(state)}`,
       { style: { height: getHeight(state) } },
@@ -74,8 +75,7 @@ const BottomSheet = {
           { onclick: () => { state.hideSheet = true; resetState(state) }, "type": "button", "title": "Close the sheet" },
           m.trust("&times;")
         )),
-      m("main", { "class": "body", style: { height: '100%' } }, children)))),
-  onremove: ({ attrs: { state } }) => resetState(state)
+      m("main", { "class": "body", style: { height: '100%' } }, children))),
 }
 
 

@@ -51,6 +51,43 @@
 .column.content-end {
   align-content: flex-end;
 }
+.row.items-between,
+.column.items-between {
+  align-items: space-between;
+}
+.row.justify-between,
+.column.justify-between {
+  justify-content: space-between;
+}
+.row.content-between,
+.column.content-between {
+  align-content: space-between;
+}
+.row.items-evenly,
+.column.items-evenly {
+  align-items: space-evenly;
+}
+.row.justify-evenly,
+.column.justify-evenly {
+  justify-content: space-evenly;
+}
+.row.content-evenly,
+.column.content-evenly {
+  align-content: space-evenly;
+}
+
+.row.items-around,
+.column.items-around {
+  align-items: space-around;
+}
+.row.justify-around,
+.column.justify-around {
+  justify-content: space-around;
+}
+.row.content-around,
+.column.content-around {
+  align-content: space-around;
+}
 .row.items-stretch,
 .column.items-stretch {
   align-items: stretch;
