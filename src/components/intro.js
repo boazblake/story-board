@@ -16,7 +16,7 @@ const calcImgSize = ({ settings: { profile } }) => {
 export const Intro = () => {
   return {
     view: ({ attrs: { mdl } }) =>
-      m('.w3-container',
+      m('.',
         m("img#me.w3-block.w3-content", {
           style: {
             ...calcImgSize(mdl),

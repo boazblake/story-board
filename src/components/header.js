@@ -61,44 +61,17 @@ const downloadPDF = mdl => {
 export const Header = {
   view: ({ attrs: { mdl } }) =>
     m(
-      "header.w3-row",
+      "header.row",
       m(
         "h1.typewriter type-writer",
         {
           oncreate: ({ dom }) =>
           (dom.onanimationend = () =>
             setTimeout(() => dom.classList.remove("type-writer"))),
-          class: 'w3-content w3-center',
           style: { maxWidth: '350px' },
 
         },
         m("code", "{ Boaz Blake }")
       ),
-      // m('.w3-half.w3-center',
-      //   m(
-      //     'a.w3-button',
-      //     {
-      //       download: 'Boaz_Blake_Resume.pdf',
-      //       href: 'files/resume.pdf',
-      //       // onclick: () => downloadPDF(mdl)
-      //     },
-      //     'Download Resume',
-      //   ),
-      //   // m('button.sticky.w3-btn.w3-border.w3-border-red.w3-circle.w3-white.w3-hide-medium.w3-hide-large', {
-      //   //   onclick: () => {
-      //   //     mdl.dom.scrollTo({
-      //   //       top: 0,
-      //   //       left: 0,
-      //   //       behavior: 'smooth'
-      //   //     })
-      //   //   }, style: {
-      //   //     opacity: `clamp(0, ${mdl.scrollPos / 1500}, 1)`,
-      //   //     position: 'absolute',
-      //   //     left: '85vw',
-      //   //     top: '80vh',
-      //   //     zIndex: 1000,
-      //   //   }
-      //   // }, '^')
-      // ),
     )
 }

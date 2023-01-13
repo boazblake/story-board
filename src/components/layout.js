@@ -8,7 +8,7 @@ export const Layout = () => {
       m(
         "#app",
         // { oncreate: onscroll },
-        m('.w3-display-top.w3-block', m(Header, { mdl })),
+        m('.', m(Header, { mdl })),
         m('.', children),
       ),
   }
