@@ -60,6 +60,14 @@ button {
   cursor: pointer;
 }
 
+.grabbing {
+  cursor: grabbing;
+}
+
+.grabber {
+  cursor: grab;
+}
+
 .sheet {
   display: flex;
   flex-direction: column;
@@ -70,7 +78,7 @@ button {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -3dvh;
   z-index: 2;
   visibility: visible;
   transition: opacity 0.5s, visibility 0.5s;
@@ -103,7 +111,7 @@ button {
 
   overflow-y: hidden;
 
-  --default-transitions: transform 0.5s, width, border-radius 0.5s;
+  --default-transitions: transform 0.5s, width, box-shadow, height, border-radius 0.5s;
 
   transition: var(--default-transitions);
   transform: translateY(0);
@@ -117,13 +125,15 @@ button {
 }
 
 .sheet #contents:not(.not-selectable) {
-  transition: var(--default-transitions), height 0.5s;
+  transition: var(--default-transitions) 0.5s;
 }
 
 .sheet #contents.fullscreen {
   border-radius: 0;
   max-width: none;
-  transition:   width, height 0.5s;
+  transition: var(--default-transitions);
+  transition: width, height, box-shadow 0.5s ease-in;
+  box-shadow: none;
 }
 
 .sheet[aria-hidden="true"] #contents {
@@ -134,11 +144,16 @@ button {
   display: flex;
 }
 
+.sheet .controls:hover .draggable-thumb {
+  width: 4rem;
+  transition: width 0.4s  ease-in;
+}
+
+
 .sheet .draggable-area {
   width: 3rem;
   margin: auto;
   padding: 1rem;
-  cursor: grab;
 }
 
 .sheet .draggable-thumb {
@@ -146,17 +161,7 @@ button {
   height: 0.5rem;
   background: var(--divider);
   border-radius: 0.125rem;
-  transition: width, height 0.4s ease-in;
-}
-
-.sheet .draggable-thumb:hover {
-  height: 1.2rem;
-  width: 4rem;
-  /* min-height: 40px;
-  min-width: 40px;
-  max-height: 40px; */
-  /* max-width: 40px; */
-  transition: width, height 0.4s ease-in;
+  transition: width 0.4s  ease-in;
 }
 
 .sheet .close-sheet {

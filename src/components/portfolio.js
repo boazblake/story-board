@@ -150,7 +150,7 @@ const Portfolio = () => {
         m('.w3-row.w3-grid.overflow', {
           style: { height: '80vh' }
         },
-          m('img', { width: '100%', height: 'auto', src: 'images/baca.webp' }),
+          (m('img', { width: '100%', height: 'auto', src: 'images/baca.webp' })),
           mdl.portfolio.reposList.map((url) => m(Repo, { url, mdl }))
         )
       ),

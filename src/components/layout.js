@@ -8,8 +8,8 @@ export const Layout = () => {
       m(
         "#app",
         // { oncreate: onscroll },
-        m('.', m(Header, { mdl })),
-        m('.', children),
+        m(Header, { mdl }),
+        children,
       ),
   }
 }

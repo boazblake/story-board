@@ -7,7 +7,7 @@ let winW = window.innerWidth
 
 // set display profiles
 const getProfile = (w: number) => {
-  if (w < 668) return "phone"
+  if (w < 600) return "phone"
   if (w < 920) return "tablet"
   return "desktop"
 }
