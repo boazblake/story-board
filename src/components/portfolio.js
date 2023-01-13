@@ -1,13 +1,5 @@
 import m from 'mithril'
 
-const portfolioState = {
-  hideSheet: true,
-  sheetHeight: Math.min(50, 720 / window.innerHeight * 100),
-  dragPosition: undefined,
-  isDragging: false,
-  selectable: true,
-}
-
 const hasRepos = () => {
   let age = parseInt(localStorage.getItem("repos-date"))
   let now = Date.now()
@@ -166,4 +158,4 @@ const Portfolio = () => {
 }
 
 
-export { Portfolio, portfolioState }
+export { Portfolio }

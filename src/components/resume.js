@@ -76,15 +76,6 @@ const resumeDto = [
   },
 ]
 
-const resumeState = {
-  hideSheet: true,
-  sheetHeight: Math.min(50, 720 / window.innerHeight * 100),
-  dragPosition: undefined,
-  isDragging: false,
-  selectable: true,
-}
-
-
 
 const Resume = {
   view: () =>
@@ -104,4 +95,4 @@ const Resume = {
 }
 
 
-export { resumeState, Resume }
+export { Resume }

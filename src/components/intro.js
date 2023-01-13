@@ -40,7 +40,7 @@ export const Intro = () => {
         ),
         m(Links),
         m(
-          "p.w3-block.w3-content.w3-large", { style: { color: "black", }, },
+          "p.w3-container.w3-large",
           "Front-End developer with half a decade of industry experience building a variety of different applications using a multitude of different frameworks and languages."
         ),
 

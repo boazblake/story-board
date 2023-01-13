@@ -1,4 +1,4 @@
-export const log = (m) => (v) => {
+window.log = (m) => (v) => {
   console.log(m, v)
   return v
 }
@@ -8,7 +8,7 @@ const secureImg = (url) =>
 
 export const randomPause = () => Math.random() * 1000
 export const Pause = (n) => () => n * 1000
-export const NoOp = () => {}
+export const NoOp = () => { }
 export const nameFromRoute = (route) => route.split("/")[1].toUpperCase()
 
 export const jsonCopy = (data) => JSON.parse(JSON.stringify(data))

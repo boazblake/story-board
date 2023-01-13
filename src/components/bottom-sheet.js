@@ -36,7 +36,22 @@ const onDragEnd = state => () => {
   state.isDragging = false
 }
 
-export const BottomSheet = {
+const resetState = state => {
+  console.log(state)
+  state = State()
+  console.log(state)
+}
+
+const State = () => ({
+  hideSheet: true,
+  sheetHeight: Math.min(50, 720 / window.innerHeight * 100),
+  dragPosition: undefined,
+  isDragging: false,
+  selectable: true,
+})
+
+
+const BottomSheet = {
   view: ({ attrs: { state }, children }) => m('', {
     onmousemove: onDragMove(state),
     ontouchmove: onDragMove(state),
@@ -49,10 +64,19 @@ export const BottomSheet = {
       { style: { height: getHeight(state) } },
       m("header.controls",
         m(`.draggable-area.${getCursor(state)}`, { ontouchstart: onDragStart(state), onmousedown: onDragStart(state) },
-          m(".draggable-thumb",)),
+          m(".draggable-thumb", {
+            style: {
+              height: state.isDragging && '1.2rem',
+              width: state.isDragging && '4rem'
+            }
+          })),
         m("button.close-sheet",
-          { onclick: () => state.hideSheet = true, "type": "button", "title": "Close the sheet" },
+          { onclick: () => { state.hideSheet = true; resetState(state) }, "type": "button", "title": "Close the sheet" },
           m.trust("&times;")
         )),
-      m("main", { "class": "body", style: { height: '100%' } }, children))))
+      m("main", { "class": "body", style: { height: '100%' } }, children)))),
+  onremove: ({ attrs: { state } }) => resetState(state)
 }
+
+
+export { BottomSheet, State }

@@ -1,9 +1,12 @@
 import m from 'mithril'
 import { Intro } from '@/components/intro'
-import { Resume, resumeState } from '@/components/resume'
-import { Portfolio, portfolioState } from '@/components/portfolio'
-import { BottomSheet } from '@/components/bottom-sheet'
+import { Resume } from '@/components/resume'
+import { Portfolio } from '@/components/portfolio'
+import { BottomSheet, State } from '@/components/bottom-sheet'
 
+
+const portfolioState = State()
+const resumeState = State()
 
 const SheetBtn = {
   view: ({ attrs: { action, title } }) => m("button", {
@@ -26,7 +29,7 @@ export const Home = {
   view: ({ attrs: { mdl } }) => m('#home', { style: { height: '100dvh' } },
     m(Intro, { mdl }),
     m(SheetBtns),
-    m(BottomSheet, { state: resumeState }, m(Resume, { mdl })),
-    m(BottomSheet, { state: portfolioState }, m(Portfolio, { mdl }))
+    !resumeState.hideSheet && m(BottomSheet, { state: resumeState }, m(Resume, { mdl })),
+    !portfolioState.hideSheet && m(BottomSheet, { state: portfolioState }, m(Portfolio, { mdl }))
   )
 }
