@@ -47,7 +47,7 @@ const getClassList = mdl => {
 export const Home = {
   view: ({ attrs: { mdl } }) =>
     m(`#home.${getClassList(mdl)}.w3-container`, { style: { height: '90dvh' } },
-      m('section.w3-half.overflow',
+      m('section.justify-evenly.w3-half.overflow',
         m("img#me.w3-block.w3-content", {
           style: {
             ...calcImgSize(mdl),
@@ -70,7 +70,7 @@ export const Home = {
 
         ),
       ),
-      m('section.w3-half.w3-container.overflow',
+      m('section.justify-evenly.w3-half.w3-container.overflow',
         m(
           "p.w3-large.w3-margin.w3-center",
           "Software engineer with half a decade of industry experience building a variety of different applications using a multitude of different frameworks and languages."

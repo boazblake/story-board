@@ -33,7 +33,7 @@ const Link = () => {
           target: target ? "_blank" : "",
           href,
         },
-        m("img", {
+        m('button', m("img", {
           style: {
             margin: "2px",
             height: "50px",
@@ -42,7 +42,7 @@ const Link = () => {
             ...(state.hover && { transform: "skewY(10deg)" }),
           },
           src,
-        })
+        }))
       ),
   }
 }
