@@ -10,6 +10,7 @@
   --foreground: #000;
   --divider: #dcdcdc;
   --overlay: #888;
+  --box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,6 +18,7 @@
     --background: #000;
     --foreground: #fff;
     --divider: #333;
+    --box-shadow: 0 3px 10px rgb(255 255 255 / 1);
   }
 }
 
@@ -121,7 +123,7 @@ button {
   height: 30vh;
 
   box-sizing: border-box;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  box-shadow: var(--box-shadow);
 }
 
 .sheet #contents:not(.not-selectable) {

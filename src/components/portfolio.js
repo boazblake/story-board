@@ -143,14 +143,14 @@ const Portfolio = () => {
       m(
         ".w3-container",
         m('h1', 'Projects'),
-        m('h2', 'random sample of projects'),
+        m('h2.w3-center', 'Click through to visit these projects'),
         state.status == "failed" && "Error fetching Repos ...",
         state.status == "loading" && m('.w3-panel', "Loading Repos ..."),
         state.status == "loaded" &&
         m('.w3-row.w3-grid.overflow', {
           style: { height: '80vh' }
         },
-          (m('img', { width: '100%', height: 'auto', src: 'images/baca.webp' })),
+          m('picture.w3-block', m('img', { width: '400px', height: 'auto', src: 'images/baca.webp' }), m('p', 'Neighborhood Civic Association website that I am webmaster of. Created using mithriljs and expressjs')),
           mdl.portfolio.reposList.map((url) => m(Repo, { url, mdl }))
         )
       ),
