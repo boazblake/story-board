@@ -98,7 +98,7 @@ const Repo = () => {
           m(
             ".w3-cell.w3-padding-small",
             m('h2', state.name),
-            m("img", { width: "200px", src: state.src }),
+            m("img", { style: { maxWidth: "80%" }, src: state.src }),
             m(".info", state.info),
           )
         )
@@ -150,7 +150,7 @@ const Portfolio = () => {
         m('.w3-row.w3-grid.overflow', {
           style: { height: '80vh' }
         },
-          m('picture.w3-block', m('img', { width: '400px', height: 'auto', src: 'images/baca.webp' }), m('p', 'Neighborhood Civic Association website that I am webmaster of. Created using mithriljs and expressjs')),
+          m('picture.w3-block', m('img', { style: { minWidth: '80%', maxWidth: '400px', height: 'auto', }, src: 'images/baca.webp' }), m('p', 'Neighborhood Civic Association website that I am webmaster of. Created using mithriljs and expressjs')),
           mdl.portfolio.reposList.map((url) => m(Repo, { url, mdl }))
         )
       ),
