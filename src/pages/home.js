@@ -3,7 +3,7 @@ import { Links } from '@/components/links'
 import { Resume } from '@/components/resume'
 import { Portfolio } from '@/components/portfolio'
 import { BottomSheet, State } from '@/components/bottom-sheet'
-
+import { SineWaveBorderSVG } from '@/components/sine-wave'
 
 const calcImgSize = ({ settings: { profile } }) => {
   switch (profile) {
@@ -47,14 +47,18 @@ const getClassList = mdl => {
 export const Home = {
   view: ({ attrs: { mdl } }) =>
     m(`#home.${getClassList(mdl)}.w3-container`, { style: { height: '90dvh' } },
+
       m('section.justify-evenly.w3-half.overflow',
-        m("img#me.w3-block.w3-content", {
-          style: {
-            ...calcImgSize(mdl),
-            transition: " all 1s ease-out;",
-          },
-          src: "images/me.webp",
-        }),
+        m('',
+          m(SineWaveBorderSVG, { mdl }),
+
+          m("img#me.w3-block.w3-content.svg-border", {
+            style: {
+              ...calcImgSize(mdl),
+              transition: " all 1s ease-out;",
+            },
+            src: "images/me.webp",
+          }),),
 
         m(
           "a.w3-block.w3-center",

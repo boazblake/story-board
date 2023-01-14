@@ -91,6 +91,11 @@ a {
     display: flex;
     align-items: center;
 }
+
+.svg-border {
+  clip-path: url(#sine-wave);
+}
+
 .typewriter {
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   white-space: nowrap; /* Keeps the content on a single line */
