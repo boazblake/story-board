@@ -39,7 +39,7 @@ const SheetBtns = {
 const getClassList = mdl => {
   switch (mdl.settings.profile) {
     case 'phone': return 'column.items-center.justify-evenly'
-    case 'tablet': return 'row'
+    case 'tablet': return 'row.items-center'
     case 'desktop': return 'column.items-center.justify-evenly'
   }
 }

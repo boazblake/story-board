@@ -7,13 +7,13 @@ const calcState = ({ settings: { profile } }) => {
       return {
         cx: 100,
         cy: 100,
-        r: 100,
+        r: 90,
       }
     default:
       return {
         cx: 125,
         cy: 125,
-        r: 125,
+        r: 115,
       }
   }
 }
