@@ -48,7 +48,7 @@ export const Home = {
   view: ({ attrs: { mdl } }) =>
     m(`#home.${getClassList(mdl)}.w3-container`, { style: { height: '90dvh' } },
 
-      m('section.justify-evenly.w3-half.overflow',
+      m('section.column.justify-evenly.w3-half.overflow',
         m(SineWaveBorderSVG, { mdl }),
 
         m("img#me.w3-block.w3-content.svg-border", {
