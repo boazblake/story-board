@@ -62,7 +62,7 @@ export const Home = {
         m(
           "a.w3-block.w3-center",
 
-          m("p.w3-row.overflow",
+          m("p.w3-row",
             m('a.w3-col', { href: "https://boazblake.github.io/identity", target: '-blank' }, "https://BoazBlake.Github.Io/identity"),
             m('a.w3-col', { href: "mailto:boazblake@protonMail.com" }, "BoazBlake@ProtonMail.com"),
             m('a.w3-col', "347-420-3251")
@@ -76,7 +76,7 @@ export const Home = {
       m('section.justify-evenly.w3-half.w3-container.overflow',
         m(
           "p.w3-large.w3-margin.w3-center",
-          "Software engineer with half a decade of industry experience building a variety of different applications using a multitude of different frameworks and languages."
+          "Software engineer with a decade of industry experience building a variety of applications using a multitude of frameworks and languages."
         ),
         m(SheetBtns),
         m(Links),
