@@ -49,16 +49,15 @@ export const Home = {
     m(`#home.${getClassList(mdl)}.w3-container`, { style: { height: '90dvh' } },
 
       m('section.justify-evenly.w3-half.overflow',
-        m('',
-          m(SineWaveBorderSVG, { mdl }),
+        m(SineWaveBorderSVG, { mdl }),
 
-          m("img#me.w3-block.w3-content.svg-border", {
-            style: {
-              ...calcImgSize(mdl),
-              transition: " all 1s ease-out;",
-            },
-            src: "images/me.webp",
-          }),),
+        m("img#me.w3-block.w3-content.svg-border", {
+          style: {
+            ...calcImgSize(mdl),
+            transition: " all 1s ease-out;",
+          },
+          src: "images/me.webp",
+        }),
 
         m(
           "a.w3-block.w3-center",
