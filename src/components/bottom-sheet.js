@@ -85,7 +85,12 @@ const BottomSheet = {
           m('.draggable-area',
             m('.draggable-thumb',)),
           m('button.close-sheet',
-            { onclick: () => { state.hideSheet = true; resetState(state) }, 'type': 'button', 'title': 'Close the sheet' },
+            {
+              style: {
+                height: '50px',
+                width: '50px',
+              }, onclick: () => { state.hideSheet = true; resetState(state) }, 'type': 'button', 'title': 'Close the sheet'
+            },
             m.trust('&times;')
           )),
         m('main', { 'class': 'body', style: { height: '100 % ' } }, children))),

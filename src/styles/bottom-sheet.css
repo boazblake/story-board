@@ -22,10 +22,10 @@
   }
 }
 
-html,
+/* html,
 body {
   height: 100%;
-}
+} */
 
 body {
   background: var(--background);
@@ -144,6 +144,7 @@ button {
 
 .sheet .controls {
   display: flex;
+  height: 50px;
 }
 
 .sheet .controls:hover .draggable-thumb {
