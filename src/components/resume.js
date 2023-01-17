@@ -83,7 +83,7 @@ const Resume = {
       resumeDto.map(dto => m('article',
         m('h3.sticky.w3-white.glass', dto.heading),
         dto.data.map(data =>
-          m('.', m('.w3-cell-row',
+          m('.w3-padding', m('.w3-cell-row',
             m('.w3-mobile.w3-cell.italic', data.title),
             m('.w3-mobile.w3-cell', data.location),
             m('.w3-mobile.w3-cell', data.date)),
