@@ -17,3 +17,12 @@ export const isSideBarActive = (mdl) =>
   mdl.settings.profile !== "desktop" && mdl.status.sidebar
 
 export const range = (size) => [...Array(size).keys()]
+
+export const scrollToTop = (dom) => {
+  const c = dom.scrollTop || dom.scrollTop;
+  console.log(c)
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    window.scrollTo(0, c - c / 8);
+  }
+};

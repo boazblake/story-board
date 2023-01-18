@@ -1,6 +1,6 @@
 import m from 'mithril'
 import { AnimateChildren, fadeInUp } from "@/styles"
-import { Pause } from "@/Utils"
+import { Pause, scrollToTop } from "@/Utils"
 const resumeDto = [
   {
     heading: 'Professional Experience',
@@ -79,7 +79,7 @@ const resumeDto = [
 
 const Resume = {
   view: () =>
-    m('#resume', { oncreate: AnimateChildren(fadeInUp, Pause(0.05)) },
+    m('#resume',
       resumeDto.map(dto => m('article',
         m('h3.sticky.w3-white.glass', dto.heading),
         dto.data.map(data =>

@@ -73,7 +73,7 @@ export const Home = {
 
         ),
       ),
-      m('section.justify-evenly.w3-half.w3-container.overflow',
+      m('section.justify-evenly.w3-half.w3-container.overflow', { style: { height: '100%' } },
         m(
           "p.w3-large.w3-margin.w3-center",
           "Software engineer with a decade of industry experience building a variety of applications using a multitude of frameworks and languages."

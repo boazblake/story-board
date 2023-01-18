@@ -50,11 +50,8 @@ const onDragEnd = state => () => {
   state.isDragging = false
 }
 
-const resetState = (state) => {
-  console.log(state)
+const resetState = (state) =>
   state.sheetHeight = Math.min(50, 720 / window.innerHeight * 100)
-  console.log(state)
-}
 
 const State = () => ({
   hideSheet: true,
