@@ -8,6 +8,13 @@ import { SineWaveBorderSVG } from '@/components/sine-wave'
 const getRightStyle = ({ settings: { profile } }) => {
   switch (profile) {
     case "tablet":
+      return { height: "100%", justifyContent: 'stretch' }
+  }
+}
+
+const getLeftStyle = ({ settings: { profile } }) => {
+  switch (profile) {
+    case "tablet":
       return { height: "100%", display: 'flex', flexFlow: 'column', justifyContent: 'space-between' }
   }
 }
@@ -56,6 +63,7 @@ export const Home = {
     m(`#home.${getClassList(mdl)}.w3-container`, { style: { height: '90dvh' } },
 
       m('section.column.justify-evenly.w3-half.overflow',
+        { style: getLeftStyle(mdl) },
         m(SineWaveBorderSVG, { mdl }),
 
         m("img#me.w3-block.w3-content.svg-border", {
