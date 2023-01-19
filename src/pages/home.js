@@ -8,7 +8,7 @@ import { SineWaveBorderSVG } from '@/components/sine-wave'
 const getRightStyle = ({ settings: { profile } }) => {
   switch (profile) {
     case "tablet":
-      return { height: "100%" }
+      return { height: "100%", display: 'flex', flexFlow: 'column', justifyContent: 'space-between' }
   }
 }
 
@@ -80,16 +80,16 @@ export const Home = {
 
         ),
       ),
-      m('section.justify-evenly.w3-half.w3-container.overflow', { style: getRightStyle(mdl) } },
-  m(
-    "p.w3-large.w3-margin.w3-center",
-    "Software engineer with a decade of industry experience building a variety of applications using a multitude of frameworks and languages."
-  ),
-    m(SheetBtns),
-    m(Links),
+      m('section.justify-evenly.w3-half.w3-container.overflow', { style: getRightStyle(mdl) },
+        m(
+          "p.w3-large.w3-margin.w3-center",
+          "Software engineer with a decade of industry experience building a variety of applications using a multitude of frameworks and languages."
+        ),
+        m(SheetBtns),
+        m(Links),
 
-    m(BottomSheet, { state: resumeState }, m(Resume, { mdl })),
-    m(BottomSheet, { state: portfolioState }, m(Portfolio, { mdl }))
+        m(BottomSheet, { state: resumeState }, m(Resume, { mdl })),
+        m(BottomSheet, { state: portfolioState }, m(Portfolio, { mdl }))
       ),
     )
 }
