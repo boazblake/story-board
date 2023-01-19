@@ -75,7 +75,7 @@ export const Home = {
             m('a.w3-col', "347-420-3251")
           ),
           m("p",
-            "Motivated - Self Driven - JS Developer"
+            "Motivated - Self Driven - Full Stack JS Developer"
           ),
 
         ),
