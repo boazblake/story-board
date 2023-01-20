@@ -118,7 +118,7 @@ button {
   transition: var(--default-transitions);
   transform: translateY(0);
 
-  max-width: 70rem;
+  max-width: 90%;
   max-height: 100vh;
   height: 30vh;
 

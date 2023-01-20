@@ -8,14 +8,14 @@ import { SineWaveBorderSVG } from '@/components/sine-wave'
 const getRightStyle = ({ settings: { profile } }) => {
   switch (profile) {
     case "tablet":
-      return { height: "100%", justifyContent: 'stretch' }
+      return { height: "100%", justifyContent: 'center' }
   }
 }
 
 const getLeftStyle = ({ settings: { profile } }) => {
   switch (profile) {
     case "tablet":
-      return { height: "100%", display: 'flex', flexFlow: 'column', justifyContent: 'space-between' }
+      return { height: "100%", justifyContent: 'center' }
   }
 }
 
@@ -64,6 +64,10 @@ export const Home = {
 
       m('section.column.justify-evenly.w3-half.w3-container.overflow',
         { style: getLeftStyle(mdl) },
+
+        m("p",
+          "Motivated - Self Driven - Full Stack JS Developer"
+        ),
         m(SineWaveBorderSVG, { mdl }),
 
         m("img#me.w3-block.w3-content.svg-border", {
@@ -73,24 +77,16 @@ export const Home = {
           },
           src: "images/me.webp",
         }),
-
-        m(
-          "a.w3-block.w3-center",
-
-          m("p.w3-row",
-            m('a.w3-col', { href: "https://boazblake.github.io/identity", target: '-blank' }, "https://BoazBlake.Github.Io/identity"),
-            m('a.w3-col', { href: "mailto:boazblake@protonMail.com" }, "BoazBlake@ProtonMail.com"),
-            m('a.w3-col', "347-420-3251")
-          ),
-          m("p",
-            "Motivated - Self Driven - Full Stack JS Developer"
-          ),
-
+        m("p.w3-row.w3-center",
+          m('a.w3-col', { href: "https://boazblake.github.io/identity", target: '-blank' }, "https://BoazBlake.Github.Io/identity"),
+          m('a.w3-col', { href: "mailto:boazblake@protonMail.com" }, "BoazBlake@ProtonMail.com"),
+          m('a.w3-col', "347-420-3251")
         ),
+
       ),
-      m('section.justify-evenly.w3-half.w3-container.overflow', { style: getRightStyle(mdl) },
+      m('section.column.justify-evenly.w3-half.w3-padding.overflow', { style: getRightStyle(mdl) },
         m(
-          "p.w3-large.w3-margin.w3-center",
+          "p.w3-center",
           "Software engineer with a decade of industry experience building a variety of applications using a multitude of frameworks and languages."
         ),
         m(SheetBtns),

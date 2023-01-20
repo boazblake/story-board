@@ -11,9 +11,9 @@ const calcState = ({ settings: { profile } }) => {
       }
     default:
       return {
-        cx: 125,
-        cy: 125,
-        r: 115,
+        cx: 115,
+        cy: 115,
+        r: 100,
       }
   }
 }

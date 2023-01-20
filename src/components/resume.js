@@ -1,6 +1,4 @@
 import m from 'mithril'
-import { AnimateChildren, fadeInUp } from "@/styles"
-import { Pause, scrollToTop } from "@/Utils"
 const resumeDto = [
   {
     heading: 'Professional Experience',

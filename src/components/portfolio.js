@@ -147,13 +147,11 @@ const Portfolio = () => {
         state.status == "failed" && "Error fetching Repos ...",
         state.status == "loading" && m('.w3-panel', "Loading Repos ..."),
         state.status == "loaded" &&
-        m('.w3-row.w3-grid.overflow', {
-          style: { height: '80vh' }
-        },
+        m('.w3-row.w3-grid.overflow',
           m('a.w3-col s12 m6 l4', {
             href: `https://bonhamacres.org`,
             target: "_blank",
-          }, m('img', { style: { minWidth: '80%', maxWidth: '350px', height: 'auto', }, src: 'images/baca.webp' }), m('p', 'Neighborhood Civic Association website that I am webmaster of. Created using mithriljs and expressjs')),
+          }, m('img', { style: { maxWidth: '80%', height: 'auto', }, src: 'images/baca.webp' }), m('p', 'Neighborhood Civic Association website that I am webmaster of. Created using mithriljs and expressjs')),
           mdl.portfolio.reposList.map((url) => m(Repo, { url, mdl }))
         )
       ),
