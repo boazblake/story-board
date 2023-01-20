@@ -35,28 +35,24 @@ const opacityObs = new IntersectionObserver(handler)
 
 
 
-const getRepos = (mdl) => {
-  return hasRepos()
-    ? Promise.resolve(fetchRepos(mdl))
-    : m
-      .request({
-        url: "https://api.github.com/users/boazblake/repos?sort=asc&per_page=100",
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-        },
-      })
-      .then(saveRepos)
-}
+const getRepos = (mdl) =>
+  m
+    .request({
+      url: "https://api.github.com/users/boazblake/repos?sort=asc&per_page=1000000",
+      headers: {
+        Accept: "application/vnd.github.v3+json",
+      },
+    })
+    .then(saveRepos)
 
-const getRepo = (state) => {
-  return hasRepo(state.name)
+const getRepo = (state) =>
+  hasRepo(state.name)
     ? Promise.resolve(fetchRepo(state.name))
     : m
       .request({
         url: `https://api.github.com/repos/boazblake/${state.name}`,
       })
       .then(saveRepo(state.name))
-}
 
 const Repo = () => {
   const state = {
