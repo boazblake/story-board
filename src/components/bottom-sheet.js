@@ -27,13 +27,15 @@ const touchPosition = (event) => event.touches ? event.touches[0] : event
 
 const getCursor = state => state.isDragging ? 'grabbing' : 'grabber'
 
-const onDragStart = state => (event) => {
-  state.dragPosition = touchPosition(event).pageY
+const onDragStart = state => (e) => {
+  e.preventDefault()
+  state.dragPosition = touchPosition(e).pageY
   state.selectable = false
   state.isDragging = true
 }
 
 const onDragMove = state => (e) => {
+  e.preventDefault()
 
   if (state.dragPosition === undefined) return
   const y = touchPosition(e).pageY
@@ -41,10 +43,10 @@ const onDragMove = state => (e) => {
   const deltaHeight = deltaY / window.innerHeight * 100
   state.sheetHeight = state.sheetHeight + deltaHeight
   state.dragPosition = y
-  e.preventDefault()
 }
 
-const onDragEnd = state => () => {
+const onDragEnd = state => (e) => {
+  e.preventDefault()
   state.dragPosition = undefined
   state.selectable = false
   state.isDragging = false

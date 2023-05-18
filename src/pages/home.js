@@ -3,7 +3,6 @@ import { Links } from '@/components/links'
 import { Resume } from '@/components/resume'
 import { Portfolio } from '@/components/portfolio'
 import { BottomSheet, State } from '@/components/bottom-sheet'
-import { SineWaveBorderSVG } from '@/components/sine-wave'
 
 const getRightStyle = ({ settings: { profile } }) => {
   switch (profile) {
@@ -19,16 +18,7 @@ const getLeftStyle = ({ settings: { profile } }) => {
   }
 }
 
-const calcImgSize = ({ settings: { profile } }) => {
-  switch (profile) {
-    case "phone":
-      return { width: "200px", height: "200px" }
-    default:
-      return { width: "250px", height: "250px" }
-    // case "desktop":
-    //   return { width: "300px", height: "300px" }
-  }
-}
+
 
 const portfolioState = State()
 const resumeState = State()
@@ -68,12 +58,19 @@ export const Home = {
         m("p.w3-large.w3-center",
           "Motivated - Self Driven - Full Stack JS Developer"
         ),
-        m(SineWaveBorderSVG, { mdl }),
 
-        m("img#me.w3-block.w3-content.svg-border", {
+        m("img#me.w3-block.w3-content", {
+          oncreate: ({ dom }) => {
+            setTimeout(() => { dom.style.height = '200px'; dom.style.width = '300px' }); m.redraw()
+          },
           style: {
-            ...calcImgSize(mdl),
-            transition: " all 1s ease-out;",
+            objectFit: 'contain',
+            borderRadius: '2em',
+            willChange: 'transform',
+            transition: "all 0.6s cubic-bezier(0.33, 1, 0.68, 1)",
+            height: '100px',
+            width: '100px',
+            maxWidth: '100%',
           },
           src: "images/me.webp",
         }),

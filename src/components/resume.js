@@ -67,7 +67,7 @@ const resumeDto = [
     heading: 'Other Info',
     data: [
       {
-        descriptions: ['Married father of one daughter, and a dog. I enjoy spending time with my family, the outdoors and my freedoms.', 'Webmaster for <a class="w3-border-bottom" target="_blank" href="https://www.BonhamAcres.org">www.BonhamAcres.org</a>, the neighborhood community website that I built using <a class="w3-border-bottom" target="_blank" href="https://mithril.js.org/">mithrilJS</a> for the frontend client and   <a class="w3-border-bottom" target="_blank" href="https://expressjs.com/">ExpressJS</a> for the backend proxy.'],
+        descriptions: ['I enjoy spending time with my wife two daughters and our dog.', 'Webmaster for <a class="w3-border-bottom" target="_blank" href="https://www.BonhamAcres.org">www.BonhamAcres.org</a>, the neighborhood community website that I built using <a class="w3-border-bottom" target="_blank" href="https://mithril.js.org/">mithrilJS</a> for the frontend client and   <a class="w3-border-bottom" target="_blank" href="https://expressjs.com/">ExpressJS</a> for the backend proxy.'],
       },
 
     ]

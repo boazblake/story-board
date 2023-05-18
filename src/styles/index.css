@@ -84,7 +84,7 @@ a {
     border-radius: 12px;
     padding: 1rem;
     box-sizing: border-box;
-    width: calc(100% - 4rem);
+    width: 100%;
     color: rgba(0,0,0,0.8);
     backdrop-filter: blur(33px);
     background-blend-mode: overlay;
@@ -169,11 +169,11 @@ a {
 }
 
 
-#me {
+/* #me {
   object-fit: cover;
   width: 100%;
   max-width: 500px;
   height: 250px;
   border-radius: 50%;
-}
+} */
 
