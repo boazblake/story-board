@@ -74,11 +74,13 @@ const resumeDto = [
   },
 ]
 
-
+let count = 0
 const Resume = {
-  view: () =>
+  view: ({ attrs: { state } }) =>
     m('#resume',
-      resumeDto.map(dto => m('article',
+      { style: { height: state.height } },
+      m('button.w3-button', { onclick: e => { log('click')(e); count++ } }, `click me ${count}`),
+      resumeDto.map(dto => m('.resume-block',
         m('h3.sticky.w3-white.glass', dto.heading),
         dto.data.map(data =>
           m('.w3-padding', m('.w3-cell-row',

@@ -169,11 +169,8 @@ a {
 }
 
 
-/* #me {
-  object-fit: cover;
-  width: 100%;
-  max-width: 500px;
-  height: 250px;
-  border-radius: 50%;
-} */
+#resume {
+  height: 90%;
+  overflow-y:scroll;
+}
 
