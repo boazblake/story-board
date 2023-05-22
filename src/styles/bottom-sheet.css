@@ -187,3 +187,8 @@ button {
 form {
   gap: 1rem;
 }
+
+#sheet-contents {
+  height: 90%;
+  overflow: auto;
+}

@@ -90,7 +90,7 @@ const BottomSheet = {
           },
             m.trust('&times;')
           )),
-        m('main', render(state)))),
+        m('#sheet-contents', render(state)))),
 }
 
 
