@@ -79,7 +79,7 @@ const Resume = {
   view: ({ attrs: { state } }) =>
     m('#resume',
       { style: { height: state.height } },
-      m('button.w3-button', { onclick: e => { log('click')(e); count++ } }, `click me ${count}`),
+      // m('button.w3-button', { onclick: e => { log('click')(e); count++ } }, `click me ${count}`),
       resumeDto.map(dto => m('.resume-block',
         m('h3.sticky.w3-white.glass', dto.heading),
         dto.data.map(data =>
