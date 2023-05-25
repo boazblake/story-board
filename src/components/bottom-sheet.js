@@ -75,12 +75,12 @@ const BottomSheet = {
         ontouchend: onDragEnd(state),
         onmouseleave: onDragEnd(state),
         ariaHidden: `${state.hideSheet}`,
-        role: 'dialog',
+        // role: 'dialog',
         style: { bottom: isFullScreen(state) ? 0 : '3dvh' },
       },
       m('.overlay'),
       m(`#contents.${isFullScreen(state)} ${isSelectable(state)}`,
-        { style: { height: getHeight(state) } },
+        { style: { height: getHeight(state), overflow: 'scroll' } },
         m(`header.controls.${getCursor(state)}`, { ontouchstart: onDragStart(state), onmousedown: onDragStart(state) },
           m('.draggable-area',
             m('.draggable-thumb',)),
@@ -90,7 +90,7 @@ const BottomSheet = {
           },
             m.trust('&times;')
           )),
-        m('#sheet-contents', render(state)))),
+        m('#sheet-contents.body', render(state)))),
 }
 
 

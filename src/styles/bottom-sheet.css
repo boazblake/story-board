@@ -106,6 +106,7 @@ button {
   display: flex;
   flex-direction: column;
 
+  overflow-y:auto;
   border-radius: 1rem 1rem 0 0;
 
   background: var(--background);
@@ -186,9 +187,4 @@ button {
 
 form {
   gap: 1rem;
-}
-
-#sheet-contents {
-  height: 90%;
-  overflow: auto;
 }
