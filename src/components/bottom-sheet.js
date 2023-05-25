@@ -35,7 +35,6 @@ const onDragStart = state => (e) => {
 }
 
 const onDragMove = state => (e) => {
-  e.preventDefault()
 
   if (state.dragPosition === undefined) return
   const y = touchPosition(e).pageY
@@ -85,8 +84,8 @@ const BottomSheet = {
           m('.draggable-area',
             m('.draggable-thumb',)),
           m('a.close-sheet', {
-            ontouchstart: () => { state.hideSheet = true; resetState(state); console.log('close', state) },
-            onclick: () => { state.hideSheet = true; resetState(state); console.log('close', state) }, 'type': 'button', 'title': 'Close the sheet'
+            ontouchstart: () => { state.hideSheet = true; resetState(state); },
+            onclick: () => { state.hideSheet = true; resetState(state); }, 'type': 'button', 'title': 'Close the sheet'
           },
             m.trust('&times;')
           )),

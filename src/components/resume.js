@@ -76,7 +76,7 @@ const resumeDto = [
 
 const Resume = {
   view: ({ attrs: { state } }) => {
-    console.log(state); return m('#resume',
+    return m('#resume',
       { style: { height: state.height } },
       resumeDto.map(dto => m('.resume-block',
         m('h3.sticky.w3-white.glass', dto.heading),
