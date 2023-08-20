@@ -10,7 +10,6 @@ const duration = {
 
 function transitionEndPromise(element) {
   const transitionEnded = (e) => {
-    // console.log("transitionEnded", element, e)
     if (e.target !== element) return
     element.removeEventListener("transitionend", transitionEnded)
   }
@@ -19,14 +18,8 @@ function transitionEndPromise(element) {
   )
 }
 
-export const AnimatePage = (animation) => ({ dom }) => {
-  // let origStyles = jsonCopy(dom.style)
-  // dom.style.position = "absolute"
-  // dom.style.top = -19
-  // dom.style.width = "100%"
-  Animate(animation)({ dom })
-  // Animate(animation)({ dom })
-}
+export const AnimatePage = (animation) => ({ dom }) => Animate(animation)({ dom })
+
 
 export const Animate = (animation, pause = NoOp) => ({ dom }) =>
   setTimeout(

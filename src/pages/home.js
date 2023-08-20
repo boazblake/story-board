@@ -59,18 +59,15 @@ export const Home = {
           "Motivated - Self Driven - Full Stack JS Developer"
         ),
 
-        m("img#me.w3-block.w3-content", {
+        m("img#me.w3-block.w3-content.hide", {
           oncreate: ({ dom }) => {
-            setTimeout(() => { dom.style.height = '200px'; dom.style.width = '300px' }); m.redraw()
-          },
-          style: {
-            objectFit: 'contain',
-            borderRadius: '2em',
-            willChange: 'transform',
-            transition: "all 0.6s cubic-bezier(0.33, 1, 0.68, 1)",
-            height: '100px',
-            width: '100px',
-            maxWidth: '100%',
+            setTimeout(() => {
+              dom.classList.replace('hide', 'show')
+              dom.style.borderRadius = '3em'
+              dom.style.width = '300px'
+              dom.style.height = '200px'
+
+            }, 80);
           },
           src: "images/me.webp",
         }),
