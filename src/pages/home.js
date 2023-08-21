@@ -55,7 +55,7 @@ export const Home = {
       m('section.column.justify-evenly.w3-half.w3-container.overflow',
         { style: getLeftStyle(mdl) },
 
-        m("p.w3-large.w3-center",
+        m("h1.w3-large.w3-center",
           "Full Stack JS Developer"
         ),
 
