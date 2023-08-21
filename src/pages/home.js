@@ -56,7 +56,7 @@ export const Home = {
         { style: getLeftStyle(mdl) },
 
         m("p.w3-large.w3-center",
-          "Motivated - Self Driven - Full Stack JS Developer"
+          "Full Stack JS Developer"
         ),
 
         m("img#me.w3-block.w3-content.hide", {
