@@ -44,7 +44,6 @@ body {
   overflow: hidden;
 }
 
-
 a {
   text-decoration: none;
   cursor: pointer;
@@ -67,29 +66,34 @@ a {
 
 #app {
   height: 100dvh;
+  display: grid;
+  grid-template-areas:
+    "header"
+    "content"
+    "footer";
+  grid-template-rows: 1fr 6r 1fr;
   padding-bottom: calc(1rem + env(safe-area-inset-bottom));
 }
 
 #header {
   font-size: 25px;
   padding: 8px;
-  min-height: 100px;
+  height: 100px;
   transition-duration: 0.6s;
 }
 
-
 .glass {
-    margin: 0 1rem 0 0;
-    background-color: #ffffff7d;
-    border-radius: 12px;
-    padding: 1rem;
-    box-sizing: border-box;
-    width: 100%;
-    color: rgba(0,0,0,0.8);
-    backdrop-filter: blur(33px);
-    background-blend-mode: overlay;
-    display: flex;
-    align-items: center;
+  margin: 0 1rem 0 0;
+  background-color: #ffffff7d;
+  border-radius: 12px;
+  padding: 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(33px);
+  background-blend-mode: overlay;
+  display: flex;
+  align-items: center;
 }
 
 .svg-border {
@@ -97,14 +101,19 @@ a {
 }
 
 .typewriter {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: 0.1em; /* Adjust as needed */
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Gives that scrolling effect as the typing happens */
+  letter-spacing: 0.1em;
+  /* Adjust as needed */
 }
 
 .type-writer {
-  border-right: 0.15em solid var(--orange); /* The typwriter cursor */
+  border-right: 0.15em solid var(--orange);
+  /* The typwriter cursor */
   animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
@@ -113,6 +122,7 @@ a {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
@@ -120,10 +130,12 @@ a {
 
 /* The typewriter cursor effect */
 @keyframes blink-caret {
+
   from,
   to {
     border-color: transparent;
   }
+
   50% {
     border-color: var(--orange);
   }
@@ -168,19 +180,13 @@ a {
   transform: scale(0);
 }
 
-
-#resume {
-  /* height: 90%;
-  overflow-y:scroll; */
-}
-
 #me {
   object-fit: contain;
   border-radius: 10em;
   will-change: transform;
   transition: all 0.6s cubic-bezier(0.33, 1, 0.68, 1);
-  width:3px;
-  height:2px;
+  width: 3px;
+  height: 2px;
   max-width: 100%;
 }
 
@@ -192,3 +198,35 @@ a {
   opacity: 1;
 }
 
+.img-placeholder {
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  /* for 16:9 aspect ratio */
+  background: #ddd;
+  position: relative;
+}
+
+.img-placeholder img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("https://blog.teamtreehouse.com/wp-content/uploads/2015/05/loading.gif") 50% no-repeat;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file-upload {
+  border: 2px solid #3880ff;
+  color: #3880ff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}

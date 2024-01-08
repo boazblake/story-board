@@ -2,6 +2,10 @@ import Stream from "mithril-stream"
 
 const model = {
   dom: null,
+  currentAudioUuid: null,
+  wavesurfer: {
+    model: null, regions: null, timeline: null
+  },
   state: {
     selectable: Stream(''),
     dragPos: 0,
@@ -10,7 +14,8 @@ const model = {
     isLoading: false,
     loadingProgress: { max: 0, value: 0 },
     isLoggedIn: () => sessionStorage.getItem("token"),
-  }, portfolio: { repos: {}, reposList: [] },
+  }
+  ,
   settings: { width: "", profile: "", inspector: "" },
 }
 
