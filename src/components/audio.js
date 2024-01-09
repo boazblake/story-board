@@ -8,26 +8,46 @@ import { compose } from 'ramda'
 const random = (min, max) => Math.random() * (max - min) + min
 const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.5)`
 
+
+const canvasRepresentationOfImage = ({ imageDto }) => {
+    // content.uuid = imageDto.uuid
+    // content.alt = imageDto.name
+
+    const calcWidthHeight = (w, h) => {
+        const width = 100;
+
+        // Calculate the new height while maintaining the aspect ratio
+        const height = (h / w) * width
+
+        return { width, height }
+    }
+
+    var canvas = document.createElement('canvas');
+    const { width, height } = calcWidthHeight(imageDto.width, imageDto.height)
+    canvas.width = width;
+    canvas.height = height;
+    canvas['data-uuids'] = imageDto.uuid
+    var ctx = canvas.getContext('2d');
+    var img = new Image(imageDto.src);
+    img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+    img.src = imageDto.src;
+    return canvas
+}
+
 export const addRegion = ({ mdl, playerState, imageDto }) => {
-    const content = document.createElement('img')
-    content.style['max-width'] = '100px'
-    content.style['max-height'] = '140px'
-    // content.style['overflow'] = 'hidden'
-    content.src = imageDto.src
-    content.uuid = imageDto.uuid
-    content.alt = imageDto.name
+
+    const content = canvasRepresentationOfImage({ imageDto })
     const region = mdl.wavesurfer.regions.addRegion({
         start: imageDto.timeStart,
         end: imageDto.timeEnd,
         content,
-        color: randomColor()
+        color: randomColor(),
+        //id: playerState.recording.name
     })
-    playerState.regions.push(region)
-    log('mdl')(mdl, region)
+    playerState.regions = playerState.regions.concat([region])
 }
 
 const initWSModel = ({ dom, playerState }) => ({ mdl }) => {
-    console.log(mdl)
     mdl.wavesurfer.model = WaveSurfer.create({
         container: dom,
         //height: 110,
@@ -58,18 +78,90 @@ const initWSModel = ({ dom, playerState }) => ({ mdl }) => {
         progressColor: '#383351',
         url: playerState.recording.audio,
         minPxPerSec: 10,
-        xhr: {
-            cache: "default",
-            mode: "cors",
-            method: "GET",
-            headers: ['Access-Control-Allow-Origin:origin']
-        },
+        // xhr: {
+        //     cache: "default",
+        //     mode: "cors",
+        //     method: "GET",
+        //     headers: ['Access-Control-Allow-Origin:origin']
+        // },
     })
+    mdl.wavesurfer.model.on('timeupdate', (currentTime) => {
+        playerState.currentTime = currentTime
+
+        const currentlyPlayingRegions = region => playerState.currentTime >= region.start && playerState.currentTime <= region.end
+
+        playerState.activeRegions = playerState.regions.filter(currentlyPlayingRegions)
+        m.redraw()
+    })
+    mdl.wavesurfer.model.on('seeking', (currentTime) => {
+        playerState.currentTime = currentTime
+
+        const currentlyPlayingRegions = region => playerState.currentTime >= region.start && playerState.currentTime <= region.end
+
+        playerState.activeRegions = playerState.regions.filter(currentlyPlayingRegions)
+        m.redraw()
+    })
+    mdl.wavesurfer.model.on('interaction', (currentTime) => {
+        playerState.currentTime = currentTime
+
+        const currentlyPlayingRegions = region => playerState.currentTime >= region.start && playerState.currentTime <= region.end
+
+        playerState.activeRegions = playerState.regions.filter(currentlyPlayingRegions)
+        m.redraw()
+    })
+
+
+    mdl.wavesurfer.model.on('play', () => {
+        m.redraw()
+    })
+    mdl.wavesurfer.model.on('pause', () => {
+        m.redraw()
+    })
+    mdl.wavesurfer.model.on('finish', () => {
+        m.redraw()
+    })
+
+    mdl.wavesurfer.model.on('click', (x) => {
+        console.log('click', x)
+        m.redraw()
+    })
+    mdl.wavesurfer.model.on('drag', (x) => {
+        console.log('drag', x)
+        m.redraw()
+    })
+
+    mdl.wavesurfer.model.on('scroll', (visibleStartTime, visibleEndTime) => {
+        //  console.log('Scroll', visibleStartTime + 's', visibleEndTime + 's')
+        m.redraw()
+    })
+
+    mdl.wavesurfer.model.on('zoom', (minPxPerSec) => {
+        mdl.wavesurfer.model.minPxPerSec = minPxPerSec
+        m.redraw()
+    })
+
+
+    // Reset the active region when the user clicks anywhere in the waveform
+    // mdl.wavesurfer.model.on('interaction', (time) => {
+    //     mdl.wavesurfer.regions.addRegion({
+    //         start: time,
+    //         end: time + 5,
+    //         content: recording.files[0].src,
+    //         color: randomColor()
+    //     })
+    //     playerState.activeRegions = null
+    // })
+    // Update the zoom level on slider change
+    // mdl.wavesurfer.model.once('decode', () => {
+    //     document.querySelector('input[type="range"]').oninput = (e) => {
+    //         const minPxPerSec = Number(e.target.value)
+    //         ws.zoom(minPxPerSec)
+    //     }
+    // })
     return { mdl }
 }
 
 const initTimeLine = ({ mdl }) => {
-    console.log('init, mdl', mdl)
     mdl.wavesurfer.timeline = mdl.wavesurfer.model.registerPlugin(Timeline.create({
         // height: 20,
         insertPosition: 'beforebegin',
@@ -81,7 +173,7 @@ const initTimeLine = ({ mdl }) => {
             // color: '#2D5B88',
         },
     }))
-    mdl.wavesurfer.timeline.on("timeline-clicked", x => console.log(x))
+    mdl.wavesurfer.timeline.on("timeline-clicked", (log('time-clicked'), m.redraw()))
 
 
     return { mdl }
@@ -91,40 +183,24 @@ const initTimeLine = ({ mdl }) => {
 const initRegions = ({ playerState }) => ({ mdl }) => {
     mdl.wavesurfer.regions = mdl.wavesurfer.model.registerPlugin(Regions.create())
 
-
-
     mdl.wavesurfer.regions.enableDragSelection({
         color: 'rgba(255, 0, 0, 0.1)',
     })
 
     mdl.wavesurfer.regions.on('region-updated', (region) => {
-        console.log('Updated region', region)
+        //update region
+        playerState.regions = playerState.activeRegions.filter(r => r.id !== region.id).concat([region])
+        m.redraw()
     })
     mdl.wavesurfer.regions.on('region-clicked', (region, e) => {
-        console.log('region-clicked', region, e)
         e.stopPropagation() // prevent triggering a click on the waveform
-        playerState.activeRegion = region
+        playerState.activeRegions = region
         region.play()
         region.setOptions({ color: randomColor() })
+        playerState.activeRegions = region
+        m.redraw()
     })
-    // Reset the active region when the user clicks anywhere in the waveform
-    mdl.wavesurfer.model.on('interaction', (time) => {
-        console.log('interaction', time)
-        mdl.wavesurfer.regions.addRegion({
-            start: time,
-            end: time + 5,
-            content: recording.files[0].src,
-            color: randomColor()
-        })
-        playerState.activeRegion = null
-    })
-    // Update the zoom level on slider change
-    // mdl.wavesurfer.model.once('decode', () => {
-    //     document.querySelector('input[type="range"]').oninput = (e) => {
-    //         const minPxPerSec = Number(e.target.value)
-    //         ws.zoom(minPxPerSec)
-    //     }
-    // })
+
     return { mdl }
 }
 
@@ -136,7 +212,12 @@ const onDecode = ({ playerState }) => ({ mdl }) => {
     return { mdl }
 }
 
-const initAudio = ({ mdl, playerState, dom }) => compose(onDecode({ playerState }), initRegions({ playerState }), initTimeLine, initWSModel({ dom, playerState }))({ mdl })
+const initAudio = ({ mdl, playerState, dom }) => compose(
+    onDecode({ playerState }),
+    initRegions({ playerState }),
+    initTimeLine,
+    initWSModel({ dom, playerState }))
+    ({ mdl })
 
 
 

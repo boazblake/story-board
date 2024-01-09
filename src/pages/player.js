@@ -4,7 +4,7 @@ import { Audio, addRegion } from '@/components/audio'
 import { Files } from '@/components/files'
 import { uuid } from '@/Utils'
 
-const newImageDto = () => ({ src: '', name: '', description: '', timeStart: 0, timeEnd: 5 })
+const newImageDto = () => ({ width: 100, height: 140, src: '', name: '', description: '', timeStart: 0, timeEnd: 5 })
 
 const dismissModal = ({ playerState }) =>
   resetModalState({ playerState })
@@ -23,28 +23,28 @@ const saveFile = ({ mdl, playerState }) => {
 
 }
 
-const setImageSrcFromFile = ({ file }) => {
+const setImageSrcFromFile = ({ file, playerState }) => {
   return new Promise((res, rej) => {
     const reader = new FileReader()
     reader.onerror = (e) => rej(e)
-    reader.onload = () =>
-      res({ src: reader.result })
+    reader.onload = () => {
+      playerState.img.src = reader.result
+      playerState.img.name = file.name
+      // console.log(playerState, file)
+      return res({ playerState })
+    }
     reader.readAsDataURL(file)
   })
 }
 
-const openModal = ({ playerState }) => ({ src }) => {
-  playerState.img.src = src
+const openModal = ({ playerState }) => {
   playerState.modal = true
   m.redraw()
-  console.log(playerState)
 }
 
 const handleImageUpload = ({ playerState }) => ({ target: { files } }) => {
-  // playerState.fileInput = e.target
   const file = files[0]
-  playerState.img.name = file.name
-  setImageSrcFromFile({ file }).then(openModal({ playerState }))
+  setImageSrcFromFile({ file, playerState }).then(openModal)
 }
 
 const Modal = {
@@ -87,6 +87,7 @@ const Modal = {
             oninput: ({ target: { value } }) => playerState.img.description = value
           }),
           m('img', {
+            onload: ({ target: { width, height } }) => { playerState.img.width = width; playerState.img.height = height },
             src: playerState.img.src, alt: playerState.img.name
           })
         )))
@@ -94,13 +95,53 @@ const Modal = {
 
 }
 
-const getSelectedOrCurrentlyPlayingImg = ({ mdl, playerState }) => {
-  return playerState.recording.files > 0 ? playerState.recording.files[0].src : null
+function createSquareMontage({ canvases, dom }) {
+  // Calculate the number of rows and columns for the square montage
+  var size = Math.ceil(Math.sqrt(canvases.length));
+  console.log
+  // Create a new canvas for the montage
+  var montageCanvas = dom;
+  montageCanvas.width = size * 100; // assuming each image is 100px wide
+
+  // Get the context for the montage canvas
+  var ctx = montageCanvas.getContext('2d');
+
+  // Draw each canvas image onto the montage canvas in a square arrangement
+  var x = 0;
+  var y = 0;
+  var maxHeight = 0;
+  canvases.forEach(function (canvas, i) {
+    ctx.drawImage(canvas, x, y, 100, canvas.height); // set width to 100px
+
+    // Update the max height in the current row
+    maxHeight = Math.max(maxHeight, canvas.height);
+
+    // Move to the next column
+    x += 100; // fixed width
+
+    // Move to the next row after every 'size' images
+    if ((i + 1) % size === 0) {
+      x = 0;
+      y += maxHeight;
+      maxHeight = 0; // reset for the next row
+    }
+  });
+
+  // Adjust the height of the montage canvas to fit the images
+  montageCanvas.height = y + maxHeight;
+  console.log(montage)
+
+}
+
+const getSelectedOrCurrentlyPlayingImgs = ({ playerState }) => ({ dom }) => {
+  const canvases = playerState.activeRegions.map(r => r.content)
+  createSquareMontage({ canvases, dom })
+  // return playerState.recording.files > 0 ? playerState.recording.files[0].src : null
 }
 
 const Img = {
   view: ({ attrs: { mdl, playerState } }) =>
-    m('.img-placeholder', m('img', { src: getSelectedOrCurrentlyPlayingImg({ mdl, playerState }) }))
+    m('.img-placeholder', m('canvas', { oncreate: getSelectedOrCurrentlyPlayingImgs({ playerState }) }))
 }
 
 
@@ -108,7 +149,8 @@ const Img = {
 const playerState = {
   recording: {},
   status: 'loading',
-  activeRegion: null,
+  activeRegions: [],
+  currentTime: 0,
   modal: false,
   img: newImageDto(),
   images: [], //{src, uuid, name, description}
@@ -156,9 +198,8 @@ export const Player = {
 
         m(Modal, { mdl, playerState }),
         m(Audio, { mdl, playerState }),
-        playerState.regions.length > 0 && [
-          m(Img, { mdl, playerState }),
-          m(Files, { mdl, playerState })
-        ]
+        playerState.activeRegions.length > 0 && m(Img, { mdl, playerState }),
+        playerState.regions.length > 0 && m(Files, { mdl, playerState })
+
       )),
 };
