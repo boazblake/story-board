@@ -8,7 +8,7 @@ import tracks from '../../mock/tracks.json'
 import images from '../../mock/images.json'
 import regions from '../../mock/regions.json'
 
-const newImageDto = () => ({ width: 100, height: 140, src: '', name: '', description: '', })
+const newImageDto = () => ({ size: 0, width: 100, height: 140, src: '', name: '', description: '', })
 
 const dismissModal = ({ state }) =>
   resetModalState({ state })
@@ -28,14 +28,17 @@ const saveFile = ({ mdl, state, }) => {
   dismissModal({ state })
 }
 
-const setImageSrcFromFile = ({ file, playerState }) => {
+const getImageSrcNameSizeFromFile = ({ file }) => {
   return new Promise((res, rej) => {
     const reader = new FileReader()
     reader.onerror = (e) => rej(e)
     reader.onload = () => {
-      playerState.img.src = reader.result
-      playerState.img.name = file.name
-      return res({ playerState })
+      const img = {
+        src: reader.result,
+        name: file.name,
+        size: file.size,
+      }
+      return res({ img })
     }
     reader.readAsDataURL(file)
   })
@@ -48,7 +51,7 @@ const openModal = ({ playerState }) => {
 
 const handleImageUpload = ({ playerState }) => ({ target: { files } }) => {
   const file = files[0]
-  setImageSrcFromFile({ file, playerState }).then(openModal)
+  getImageSrcNameSizeFromFile({ file }).then(({ img }) => { playerState.img = { ...playerState.img, ...img }; return { playerState } }).then(log('wtf')).then(openModal)
 }
 
 const playerState = {

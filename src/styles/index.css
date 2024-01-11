@@ -180,14 +180,10 @@ a {
   transform: scale(0);
 }
 
-#me {
-  object-fit: contain;
-  border-radius: 10em;
-  will-change: transform;
-  transition: all 0.6s cubic-bezier(0.33, 1, 0.68, 1);
-  width: 3px;
-  height: 2px;
-  max-width: 100%;
+:host {
+  canvas {
+    image-rendering: crisp-edges !important;
+  }
 }
 
 .hide {
