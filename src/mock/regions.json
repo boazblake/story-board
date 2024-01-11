@@ -1,0 +1,70 @@
+[
+    {
+        "totalDuration": 421.461333,
+        "numberOfChannels": 1,
+        "minLength": 0,
+        "maxLength": null,
+        "id": "region-58ti0aa6c8g",
+        "start": 10,
+        "end": 20,
+        "drag": true,
+        "resize": true,
+        "color": "rgba(184.96496702560663, 177.13791251459747, 142.74169738662349, 0.5)",
+        "channelIdx": -1,
+        "element": {},
+        "content": {
+            "data-uuid": "338ed15a-9bd9-4a4b-bc51-bb4b6b0a707a"
+        }
+    },
+    {
+        "totalDuration": 421.461333,
+        "numberOfChannels": 1,
+        "minLength": 0,
+        "maxLength": null,
+        "id": "region-jgpepc0ebc",
+        "start": 0,
+        "end": 10,
+        "drag": true,
+        "resize": true,
+        "color": "rgba(140.4670724429296, 9.288670856890832, 204.59844921914572, 0.5)",
+        "channelIdx": -1,
+        "element": {},
+        "content": {
+            "data-uuid": "79d2c89a-6b46-4134-86df-8718020ced94"
+        }
+    },
+    {
+        "totalDuration": 421.461333,
+        "numberOfChannels": 1,
+        "minLength": 0,
+        "maxLength": null,
+        "id": "region-e9e5qolpe3g",
+        "start": 20,
+        "end": 30,
+        "drag": true,
+        "resize": true,
+        "color": "rgba(26.531244567931402, 114.75328076429452, 175.51701566969874, 0.5)",
+        "channelIdx": -1,
+        "element": {},
+        "content": {
+            "data-uuid": "2319b673-c3fe-497d-9ffa-dbd4971316de"
+        }
+    },
+    {
+        "totalDuration": 421.461333,
+        "numberOfChannels": 1,
+        "minLength": 0,
+        "maxLength": null,
+        "id": "region-74jdtt85nv8",
+        "start": 40,
+        "end": 60,
+        "drag": true,
+        "resize": true,
+        "color": "rgba(3.9164428576301127, 47.1472369021161, 108.51643908510104, 0.5)",
+        "channelIdx": -1,
+        "element": {},
+        "content": {
+            "data-uuid": "e719cce0-e4a5-4d3d-952b-596680e0b540"
+        }
+    }
+]

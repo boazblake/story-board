@@ -3,48 +3,29 @@ import WaveSurfer from 'wavesurfer.js'
 import Regions from 'wavesurfer.js/dist/plugins/regions.esm.js'
 import Timeline from 'wavesurfer.js/dist/plugins/timeline.esm.js'
 import { compose } from 'ramda'
+import { canvasRepresentationOfImage } from "./canvas";
 
 // Give regions a random color when they are created
 const random = (min, max) => Math.random() * (max - min) + min
 const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.5)`
 
 
-const canvasRepresentationOfImage = ({ imageDto }) => {
-    // content.uuid = imageDto.uuid
-    // content.alt = imageDto.name
 
-    const calcWidthHeight = (w, h) => {
-        const width = 100;
-
-        // Calculate the new height while maintaining the aspect ratio
-        const height = (h / w) * width
-
-        return { width, height }
-    }
-
-    var canvas = document.createElement('canvas');
-    const { width, height } = calcWidthHeight(imageDto.width, imageDto.height)
-    canvas.width = width;
-    canvas.height = height;
-    canvas['data-uuids'] = imageDto.uuid
-    var ctx = canvas.getContext('2d');
-    var img = new Image(imageDto.src);
-    img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-    img.src = imageDto.src;
-    return canvas
-}
-
-export const addRegion = ({ mdl, playerState, imageDto }) => {
-
-    const content = canvasRepresentationOfImage({ imageDto })
-    const region = mdl.wavesurfer.regions.addRegion({
-        start: imageDto.timeStart,
-        end: imageDto.timeEnd,
-        content,
-        color: randomColor(),
-        //id: playerState.recording.name
+export const addRegion = ({ mdl, imageDto, options }) => {
+    return new Promise((res) => {
+        const content = canvasRepresentationOfImage({ imageDto })
+        const region = mdl.wavesurfer.regions.addRegion({
+            start: options.start || 0,
+            end: options.end || 5,
+            content,
+            color: options.color || randomColor(),
+            id: options.id || null
+        })
+        m.redraw()
+        return res(region)
     })
-    playerState.regions = playerState.regions.concat([region])
+
+
 }
 
 const initWSModel = ({ dom, playerState }) => ({ mdl }) => {
@@ -58,11 +39,11 @@ const initWSModel = ({ dom, playerState }) => ({ mdl }) => {
         progressColor: "#dd5e98",
         cursorColor: "#ddd5e9",
         cursorWidth: 2,
-        barWidth: null,
-        barGap: null,
-        barRadius: null,
         barHeight: null,
         barAlign: "",
+        barWidth: 2,
+        barGap: 1,
+        barRadius: 2,
         minPxPerSec: 1,
         fillParent: true,
         mediaControls: true,
@@ -76,7 +57,7 @@ const initWSModel = ({ dom, playerState }) => ({ mdl }) => {
         sampleRate: 8000,
         waveColor: '#4F4A85',
         progressColor: '#383351',
-        url: playerState.recording.audio,
+        url: playerState.audio.track,
         minPxPerSec: 10,
         // xhr: {
         //     cache: "default",
@@ -88,7 +69,9 @@ const initWSModel = ({ dom, playerState }) => ({ mdl }) => {
     mdl.wavesurfer.model.on('timeupdate', (currentTime) => {
         playerState.currentTime = currentTime
 
-        const currentlyPlayingRegions = region => playerState.currentTime >= region.start && playerState.currentTime <= region.end
+        const currentlyPlayingRegions = region => {
+            return playerState.currentTime >= region.start && playerState.currentTime <= region.end
+        }
 
         playerState.activeRegions = playerState.regions.filter(currentlyPlayingRegions)
         m.redraw()
@@ -122,11 +105,11 @@ const initWSModel = ({ dom, playerState }) => ({ mdl }) => {
     })
 
     mdl.wavesurfer.model.on('click', (x) => {
-        console.log('click', x)
+        // console.log('click', x)
         m.redraw()
     })
     mdl.wavesurfer.model.on('drag', (x) => {
-        console.log('drag', x)
+        // console.log('drag', x)
         m.redraw()
     })
 
@@ -189,7 +172,7 @@ const initRegions = ({ playerState }) => ({ mdl }) => {
 
     mdl.wavesurfer.regions.on('region-updated', (region) => {
         //update region
-        playerState.regions = playerState.activeRegions.filter(r => r.id !== region.id).concat([region])
+        playerState.regions = playerState.regions.filter(r => r.id !== region.id).concat([region])
         m.redraw()
     })
     mdl.wavesurfer.regions.on('region-clicked', (region, e) => {
@@ -200,19 +183,39 @@ const initRegions = ({ playerState }) => ({ mdl }) => {
         playerState.activeRegions = region
         m.redraw()
     })
-
     return { mdl }
 }
 
+const findImageFromRegion = ({ images }) => region => {
+    const imageDto = images.find(image => image.uuid == region.content['data-uuid'])
+
+    return { imageDto, region }
+}
+
+const reinsertRegion = ({ mdl }) => ({ imageDto, region }) => {
+    addRegion({ mdl, imageDto, options: region })
+}
+
+const insertSavedRegion = ({ mdl, images }) => compose(reinsertRegion({ mdl }), findImageFromRegion({ images }))
+
 const onDecode = ({ playerState }) => ({ mdl }) => {
     mdl.wavesurfer.model.on('decode', () => {
-        playerState.status = 'loaded'
-        m.redraw()
+
     })
     return { mdl }
 }
 
+const onLoaded = ({ playerState }) => ({ mdl }) => {
+    mdl.wavesurfer.model.on('ready', () => {
+        playerState.regions.forEach(insertSavedRegion({ mdl, images: playerState.images }))
+        playerState.status = 'loaded'
+    })
+
+    return ({ mdl })
+}
+
 const initAudio = ({ mdl, playerState, dom }) => compose(
+    onLoaded({ playerState }),
     onDecode({ playerState }),
     initRegions({ playerState }),
     initTimeLine,

@@ -1,7 +1,7 @@
 import m from 'mithril'
 import { Layout } from "@/components/Layout"
-import { Home } from "@/pages/home.js"
-import { Player } from "@/pages/player.js"
+import { Home } from "@/pages/home"
+import { Player } from "@/pages/player"
 
 const routes = (mdl) => {
   return {
