@@ -225,7 +225,9 @@ const initAudio = ({ mdl, playerState, dom }) => compose(
 
 
 
-
+const audioState = {
+    status: 'loading'
+}
 
 export const Audio = {
     oncreate: ({ dom, attrs: { mdl, playerState } }) =>

@@ -3,9 +3,10 @@ window.log = (m) => (v) => {
   return v;
 };
 
-const secureImg = (url) =>
+export const secureImg = (url) =>
   url.match(/(https)./) ? url : url.replace("http:", "https:");
-
+export const random = (min, max) => Math.random() * (max - min) + min
+export const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.5)`
 export const randomPause = () => Math.random() * 1000;
 export const Pause = (n) => () => n * 1000;
 export const NoOp = () => {};

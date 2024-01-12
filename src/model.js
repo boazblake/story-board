@@ -1,5 +1,6 @@
 import Stream from "mithril-stream"
 
+
 const model = {
   dom: null,
   currentAudioUuid: null,
@@ -14,8 +15,7 @@ const model = {
     isLoading: false,
     loadingProgress: { max: 0, value: 0 },
     isLoggedIn: () => sessionStorage.getItem("token"),
-  }
-  ,
+  },
   settings: { width: "", profile: "", inspector: "" },
 }
 
