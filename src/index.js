@@ -3,6 +3,7 @@ import routes from './routes.js'
 import model from './model.js'
 import './styles/index.css'
 
+
 const root = document.body
 let winW = window.innerWidth
 

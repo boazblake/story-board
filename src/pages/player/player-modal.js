@@ -1,11 +1,11 @@
 import m from 'mithril'
 import { Modal } from '@/components/modal'
 import { Wave } from '@/components/wave'
-import { addRegion } from '@/components/audio'
-import { uuid } from '@/Utils'
+import { log } from '@/utils/index'
+// import { addRegion } from '@/components/audio'
 
 
-const newImageDto = () => ({ size: 0, width: 100, height: 140, src: '', name: '', description: '', })
+const newImageDto = () => ({ size: 0, width: 100, height: 140, src: '', name: '', description: '', objectId: "" })
 
 const dismissModal = ({ state, playerState }) => {
     resetModalState({ state })

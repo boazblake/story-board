@@ -1,19 +1,21 @@
 import m from "mithril"
 import { PlayerModal, openModal } from './player-modal.js'
-import { Audio, addRegion } from '@/components/audio'
+import { Audio } from './audio.js'
+import { addRegion } from '@/components/wave'
 import { Canvas } from '@/components/canvas'
 import { Files } from '@/components/files'
-import tracks from '../../mock/tracks.json'
-// import images from '../../mock/images.json'
-// import regions from '../../mock/regions.json'
+import { fetchAudioImagesAndRegions } from './model.js'
+import { log } from '@/utils/index'
+
 
 const playerState = {
-  audio: null,
+  trackId: "",
+  audio: {},
   status: 'loading',
   activeRegions: [],
   currentTime: 0,
   showModal: false,
-  // img: newImageDto(),
+  img: {},
   images: [], //{src, uuid, name, description}
   regions: [], //{start, end, id, images:[uuid], content: canvas representation of the associated image uuids}
 }
@@ -39,7 +41,7 @@ const getImageSrcNameSizeFromFile = ({ file }) => {
 const handleImageUpload = ({ playerState }) => ({ target: { files } }) => {
   const file = files[0]
   getImageSrcNameSizeFromFile({ file })
-    .then(({ img }) => { playerState.img = { ...playerState.img, ...img }; return { playerState } })
+    .then(({ img }) => { playerState.img = { ...newImageDto(objectId), ...img }; return { playerState } })
     .then(res => (playerState.showModal = true, res))
     .then(openModal)
 }
@@ -51,7 +53,6 @@ const fetchAudioAndFiles = ({ mdl, playerState }) => {
   playerState.audio = tracks[0]
   playerState.images = []//images
   playerState.regions = []//regions
-  playerState.status = 'loaded'
 }
 
 const hasActiveRegions = ({ playerState }) => {
@@ -68,10 +69,24 @@ const hasRegions = ({ playerState }) => {
 }
 
 
+const load = ({ mdl }) => {
+  const onError = log('player-load-e')
+  const onSuccess = ({ audio, images, regions }) => {
+    playerState.images = images
+    playerState.regions = regions
+    playerState.audio = audio
+    playerState.status = 'loaded'
+  }
+
+  fetchAudioImagesAndRegions({ mdl }).fork(onError, onSuccess)
+}
+
+
 export const Player = {
   oninit: ({ attrs: { mdl } }) => {
     playerState.status = 'loading'
-    fetchAudioAndFiles({ mdl, playerState })
+    playerState.TrackId = mdl.currentTrackId
+    load({ mdl })
   },
   view: ({ attrs: { mdl } }) =>
     m('ion-page',
@@ -102,7 +117,7 @@ export const Player = {
 
         playerState.showModal && m(PlayerModal, { mdl, playerState }),
 
-        m(Audio, { mdl, playerState }),
+        playerState.status == 'loaded' && m(Audio, { mdl, playerState }),
         hasActiveRegions({ playerState }) && m(Canvas, { mdl, playerState }),
         hasRegions({ playerState }) && m(Files, { mdl, playerState })
 

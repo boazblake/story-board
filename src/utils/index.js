@@ -1,4 +1,6 @@
-window.log = (m) => (v) => {
+
+
+export const log = (m) => (v) => {
   console.log(m, v);
   return v;
 };
@@ -9,7 +11,7 @@ export const random = (min, max) => Math.random() * (max - min) + min
 export const randomColor = () => `rgba(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)}, 0.5)`
 export const randomPause = () => Math.random() * 1000;
 export const Pause = (n) => () => n * 1000;
-export const NoOp = () => {};
+export const NoOp = () => { };
 export const nameFromRoute = (route) => route.split("/")[1].toUpperCase();
 
 export const isSideBarActive = (mdl) =>
@@ -27,9 +29,9 @@ export const scrollToTop = (dom) => {
 };
 
 
-export const  uuid = () =>      'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-    .replace(/[xy]/g, function (c) {
-        const r = Math.random() * 16 | 0, 
-            v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    })
+export const uuid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+  .replace(/[xy]/g, function (c) {
+    const r = Math.random() * 16 | 0,
+      v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  })

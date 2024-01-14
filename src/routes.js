@@ -14,7 +14,7 @@ const routes = (mdl) => {
     "/play/:uuid": {
       onmatch: ({ uuid }, b) => {
         mdl.slug = b
-        mdl.currentAudioUuid = uuid
+        mdl.currentTrackId = uuid
       },
       render: () => m(Layout, { mdl }, m(Player, { mdl, })),
     },
