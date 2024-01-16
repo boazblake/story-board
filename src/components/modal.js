@@ -1,12 +1,14 @@
 import m from 'mithril'
+import { log } from '@/utils'
 
 
 export const Modal = {
   oninit: ({
     attrs: { state, reset }
   }) => e => reset({ state, e }),
-  view: ({ attrs: { mdl, state, onConfirm, onCancel, }, children }) =>
-    m("ion-modal", { isOpen: state.showModal, },
+  view: ({ attrs: { mdl, state, onConfirm, onCancel, }, children }) => {
+    console.log('modal -state', state)
+    return m("ion-modal", { isOpen: state.showModal, didDismiss: log('ondiddismis') },
       m("ion-header",
         m("ion-toolbar",
           m("ion-buttons", { slot: "start" },
@@ -23,4 +25,5 @@ export const Modal = {
         children
       )
     )
+  }
 }

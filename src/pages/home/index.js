@@ -14,6 +14,7 @@ const resetModalState = ({ state }) => {
   state.status = 'loading'
   if (state.fileInput) state.fileInput.value = ""
   m.redraw()
+  console.log('reset modal', state)
 }
 
 const saveFile = ({ mdl, state }) => {
@@ -33,6 +34,8 @@ const homeState =
 }
 
 const selectItem = ({ objectId }) => e => m.route.set(`/play/${objectId}`)
+
+const deleteItem = ({ item }) => console.log(item)
 
 const audioFileToTrackDto = ({ file }) => {
   return new Promise((res, rej) => {
@@ -66,7 +69,9 @@ const load = ({ mdl }) => {
   const onSuccess = (tracks) => {
     homeState.tracks = tracks
     homeState.status = 'loaded'
+    console.log('loaded')
   }
+
   const onError = log('home-fetchTracksTask')
 
   fetchTracksTask({ mdl }).fork(onError, onSuccess)
@@ -131,7 +136,7 @@ export const Home = ({ attrs: { mdl } }) => {
                     fill: "clear",
                     color: "primary",
                   },
-                    m("ion-icon", { slot: "icon-only", name: "information-circle-outline" })
+                    m("ion-icon", { slot: "icon-only", name: "information-circle-outline", onclick: e => deleteItem({ item }) })
                   ),
                   m('ion-button', {
                     slot: "end", fill: "clear",
@@ -146,7 +151,7 @@ export const Home = ({ attrs: { mdl } }) => {
                 )
               )
         ),
-        m(Modal, { mdl, state: homeState, onConfirm: saveFile, onCancel: dismissModal, reset: resetModalState },
+        homeState.showModal && m(Modal, { mdl, state: homeState, onConfirm: saveFile, onCancel: dismissModal, reset: resetModalState },
 
           homeState.status == 'saving' && m('label.row.items-center.column.items-center.justify-center.column.justify-center', m('ion-spinner', { style: { width: '100px', height: '100px' }, name: 'dots' }), 'Saving Track'),
 

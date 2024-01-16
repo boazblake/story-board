@@ -1,15 +1,15 @@
 import m from "mithril"
-import { PlayerModal, openModal } from './player-modal.js'
+import { PlayerModal, openModal } from './modal.js'
 import { Audio } from './audio.js'
 import { addRegion } from '@/components/wave'
 import { Canvas } from '@/components/canvas'
 import { Files } from '@/components/files'
-import { fetchAudioImagesAndRegions } from './model.js'
+import { fetchAudioImagesAndRegions, newImageDto, getImageSrcNameSizeFromFile } from './model.js'
 import { log } from '@/utils/index'
 
 
 const playerState = {
-  trackId: "",
+  trackObjectId: "",
   audio: {},
   status: 'loading',
   activeRegions: [],
@@ -20,40 +20,23 @@ const playerState = {
   regions: [], //{start, end, id, images:[uuid], content: canvas representation of the associated image uuids}
 }
 
-const getImageSrcNameSizeFromFile = ({ file }) => {
-  return new Promise((res, rej) => {
-    const reader = new FileReader()
-    reader.onerror = (e) => rej(e)
-    reader.onload = () => {
-      const img = {
-        src: reader.result,
-        name: file.name,
-        size: file.size,
-      }
-      return res({ img })
-    }
-    reader.readAsDataURL(file)
-  })
-}
 
 
 
 const handleImageUpload = ({ playerState }) => ({ target: { files } }) => {
   const file = files[0]
   getImageSrcNameSizeFromFile({ file })
-    .then(({ img }) => { playerState.img = { ...newImageDto(objectId), ...img }; return { playerState } })
-    .then(res => (playerState.showModal = true, res))
+    .then(({ img }) => {
+      playerState.img = { ...newImageDto(playerState), ...img }
+      return { playerState }
+    })
     .then(openModal)
 }
 
 
 
 
-const fetchAudioAndFiles = ({ mdl, playerState }) => {
-  playerState.audio = tracks[0]
-  playerState.images = []//images
-  playerState.regions = []//regions
-}
+
 
 const hasActiveRegions = ({ playerState }) => {
   while (playerState.activeRegions.length > 0) {
@@ -85,11 +68,11 @@ const load = ({ mdl }) => {
 export const Player = {
   oninit: ({ attrs: { mdl } }) => {
     playerState.status = 'loading'
-    playerState.TrackId = mdl.currentTrackId
+    playerState.trackObjectId = mdl.currentTrackId
     load({ mdl })
   },
-  view: ({ attrs: { mdl } }) =>
-    m('ion-page',
+  view: ({ attrs: { mdl } }) => {
+    console.log('view - showModal', playerState.showModal); return playerState.status == 'loaded' ? m('ion-page',
       m('ion-header',
         m('ion-toolbar',
           m('ion-button', {
@@ -104,6 +87,7 @@ export const Player = {
           },
             m('input#file-upload', {
               onchange: handleImageUpload({ playerState }),
+              oncancel: () => { },
               name: 'file',
               label: 'Add Image',
               labelPlacement: "stacked",
@@ -117,9 +101,11 @@ export const Player = {
 
         playerState.showModal && m(PlayerModal, { mdl, playerState }),
 
-        playerState.status == 'loaded' && m(Audio, { mdl, playerState }),
+        m(Audio, { mdl, playerState }),
         hasActiveRegions({ playerState }) && m(Canvas, { mdl, playerState }),
         hasRegions({ playerState }) && m(Files, { mdl, playerState })
 
-      )),
+      ))
+      : m('label.row.items-center.column.items-center.justify-center.column.justify-center', m('ion-spinner', { style: { width: '100px', height: '100px' }, name: 'dots' }), 'Fetching Track, Images and regions')
+  },
 }

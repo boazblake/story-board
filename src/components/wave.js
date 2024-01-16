@@ -33,7 +33,7 @@ const waveState = {
         onWSclick: log('onWSclick'),
         onWSdrag: log('onWSdrag'),
         onWSscroll: log('onWSscroll'),
-        onWSzoom: log('onWSzoom')
+        onWSzoom: () => { },//log('onWSzoom')
     },
     options: {
         container: null,
@@ -85,7 +85,6 @@ const initWaveSurfer = ({ dom, attrs, waveState }) => new Promise((res) => {
     waveState.mdl.on('drag', waveState.events.onWSdrag)
     waveState.mdl.on('scroll', waveState.events.onWSscroll)
     waveState.mdl.on('zoom', waveState.events.onWSzoom)
-    console.log(waveState)
     return res({ dom, attrs, waveState })
 })
 
@@ -94,7 +93,6 @@ const initWaveOptions = ({ waveOptions }) =>
 
 
 export const Wave = ({ attrs: { waveOptions } }) => {
-    console.log(waveOptions)
     initWaveOptions({ waveOptions })
 
     return {
