@@ -6,7 +6,7 @@ import { canvasRepresentationOfImage } from '@/components/canvas'
 export const addRegion = ({ mdl, imageDto, options }) => {
     return new Promise((res) => {
         const content = canvasRepresentationOfImage({ imageDto })
-        const region = mdl.wavesurfer.regions.addRegion({
+        const region = mdl.regions.addRegion({
             start: options.start || 0,
             end: options.end || 5,
             content,

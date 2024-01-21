@@ -1,53 +1,76 @@
 import m from 'mithril'
 import { Modal } from '@/components/modal'
 import { Wave } from '@/components/wave'
-import { log } from '@/utils/index'
-// import { addRegion } from '@/components/audio'
+import { byTrackObjectId, uploadImageTask, uploadRegionTask } from './model'
+import { log } from '@/utils'
+import { canvasRepresentationOfImage } from '@/components/canvas'
+
+const modalState = {
+    status: 'loaded',
+    dom: null
+}
+
 
 
 const newImageDto = ({ trackObjectId }) => ({ size: 0, width: 100, height: 140, src: '', name: '', description: '', trackObjectId })
 
-const resetModalState = ({ playerState }) => {
-    playerState.img = {}// newImageDto({ trackObjectId: playerState.currentTrackId })
-    if (playerState.fileInput) playerState.fileInput.value = ""
-    playerState.showModal = false
-    m.redraw()
-    console.log('resetmodal', playerState.showModal, playerState)
+
+const resetForm = (attrs) => {
+    attrs.state.img = newImageDto({ trackObjectId: attrs.state.currentTrackId })
+    if (attrs.state.fileInput) attrs.state.fileInput.value = ""
 }
 
-const saveFile = ({ mdl, playerState }) => {
-    //chain save imageDTo
-    //      save region 
-    const imageDto = { ...playerState.img }
-    // playerState.images.push(imageDto)
-    const options = { start: 0, end: 5 }
-    // addRegion({ mdl, imageDto, options }).then(region => playerState.regions.push(region))
-    console.log('saveFile', mdl, playerState, imageDto)
+const closeModal = attrs => {
+    resetForm(attrs)
+    modalState.dom.isOpen = false
+    attrs.state.showModal = false
+}
 
-    resetModalState({ playerState })
+const updateRegionWithImage = (attrs, imageDto) => ({ results: { objectId } }) => {
+    imageDto.objectId = objectId
+    attrs.state.images.push(imageDto)
+    const region = attrs.state.ws.mdl.regions.regions.find(r => r.id == attrs.state.newRegionId)
+    region.setContent(canvasRepresentationOfImage({ imageDto }))
+    attrs.state.regions.push(region)
+    return region
+}
+
+const saveFile = (attrs) => {
+    modalState.status = 'saving'
+
+    const imageDto = { ...attrs.state.img, trackObjectId: byTrackObjectId({ objectId: attrs.state.trackObjectId }) }
+
+    const onSuccess = ({ results: { objectId } }) => {
+        modalState.status = 'loaded'
+        closeModal(attrs)
+        m.redraw()
+        console.log(attrs, objectId)
+    }
+
+    uploadImageTask(attrs.mdl, imageDto)
+        .map(updateRegionWithImage(attrs, imageDto))
+        .chain(uploadRegionTask(attrs))
+        .fork(log('e'), onSuccess)
+
 }
 
 export const openModal = ({ playerState }) => {
-    //    playerState.img = { ...playerState.img, ...playerState.img }
     playerState.showModal = true
-    console.log('???', playerState.showModal, playerState)
     m.redraw()
 }
 
 
-export const PlayerModal = ({ attrs: { playerState } }) => {
+export const PlayerModal = {
+    view: ({ attrs: { mdl, playerState } }) =>
+        playerState.showModal && m(Modal, {
+            mdl,
+            onConfirm: saveFile,
+            onCancel: closeModal,
+            state: playerState,
+            onCreated: ({ dom }) => modalState.dom = dom,
+        },
 
-
-    return {
-        // onremove: e => { console.log('remove', e) },
-        view: ({ attrs: { mdl, playerState } }) =>
-            m(Modal, {
-                mdl,
-                onConfirm: e => saveFile({ mdl, playerState }),
-                onCancel: e => resetModalState({ mdl, playerState }),
-                reset: e => resetModalState({ playerState }),
-                state: playerState
-            }, m('form', {
+            modalState.status == 'loaded' && m('form', {
             }, m("ion-item",
 
                 m("ion-input", {
@@ -61,8 +84,8 @@ export const PlayerModal = ({ attrs: { playerState } }) => {
                 }),
 
                 // m(Wave, {
-                //     waveOptions: { url: `data:audio/mp3;base64,${playerState.audio.track}` },
-                //     onCreated
+                //     waveOptions: { url: `data:audio/mp3;base64,${playerState.audio.track}`, width: '500px', mediaControls: false },
+                //     onCreated: log('?')
                 // }),
 
                 m("ion-textarea", {
@@ -79,10 +102,10 @@ export const PlayerModal = ({ attrs: { playerState } }) => {
                     onload: ({ target: { width, height } }) => {
                         playerState.img.width = width
                         playerState.img.height = height
-                        console.log('img loaded')
                     },
                     src: playerState.img.src, alt: playerState.img.name
                 })
-            )))
-    }
+            )),
+            modalState.status == 'saving' && m('label.row.items-center.column.items-center.justify-center.column.justify-center', m('ion-spinner', { style: { width: '100px', height: '100px' }, name: 'dots' }), 'Saving Image')
+        )
 }

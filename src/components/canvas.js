@@ -132,7 +132,7 @@ function loadImage(dataUrl) {
 
 
 export const canvasRepresentationOfImage = ({ imageDto }) => {
-    // content.uuid = imageDto.uuid
+    // content.objectId = imageDto.objectId
     // content.alt = imageDto.name
 
     const calcWidthHeight = (w, h) => {
@@ -148,7 +148,7 @@ export const canvasRepresentationOfImage = ({ imageDto }) => {
     const { width, height } = calcWidthHeight(imageDto.width, imageDto.height)
     canvas.width = width
     canvas.height = height
-    canvas['data-uuid'] = imageDto.uuid
+    canvas['data-objectId'] = imageDto.objectId
     var ctx = canvas.getContext('2d')
     var img = new Image(imageDto.src)
     img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
@@ -178,14 +178,14 @@ export const createMontageOnDom = ({ canvases }) => ({ dom }) => {
 }
 
 const getSelectedOrCurrentlyPlayingImgs = ({ playerState }) => ({ dom }) => {
-    const currentImageUuids = playerState.activeRegions.map(r => r.content['data-uuid'])
+    const currentImageobjectIds = playerState.activeRegions.map(r => r.content['data-objectId'])
 
-    if (currentImageUuids.toString() == canvasState.currentImageUuidString) return
+    if (currentImageobjectIds.toString() == canvasState.currentImageobjectIdString) return
 
-    canvasState.currentImageUuidString = currentImageUuids.toString()
+    canvasState.currentImageobjectIdString = currentImageobjectIds.toString()
 
     const base64Images = playerState.images
-        .filter(i => currentImageUuids.includes(i.uuid))
+        .filter(i => currentImageobjectIds.includes(i.objectId))
         .map(i => i.src)
     // .map(imageDto => canvasRepresentationOfImage({ imageDto }))
     // .map(log('cv'))
@@ -195,7 +195,7 @@ const getSelectedOrCurrentlyPlayingImgs = ({ playerState }) => ({ dom }) => {
 
 
 const canvasState = {
-    currentImageUuidString: ""
+    currentImageobjectIdString: ""
 }
 
 export const Canvas = {

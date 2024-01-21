@@ -5,23 +5,27 @@ import { fetchTracksTask, saveTrackTask, newTrack } from './model.js'
 import { log } from '@/utils/index'
 
 
-const dismissModal = ({ state }) =>
-  resetModalState({ state })
 
-const resetModalState = ({ state }) => {
-  state.track = newTrack()
-  state.showModal = false
-  state.status = 'loading'
-  if (state.fileInput) state.fileInput.value = ""
-  m.redraw()
-  console.log('reset modal', state)
+const created = ({ attrs, dom }) => {
+  attrs.dom = dom
 }
 
-const saveFile = ({ mdl, state }) => {
-  state.status = 'saving'
-  const onSuccess = _ => { resetModalState({ state }); load({ mdl }) }
+const resetForm = ({ attrs }) => {
+  attrs.state.track = newTrack()
+  if (attrs.state.fileInput) attrs.state.fileInput.value = ""
+}
+
+const closeModal = (attrs) => {
+  resetForm({ attrs })
+  attrs.dom.isOpen = false
+  attrs.state.showModal = false
+}
+
+const saveFile = (attrs) => {
+  attrs.state.status = 'saving'
+  const onSuccess = _ => { closeModal(attrs); load({ mdl: attrs.mdl }) }
   const onError = log('home-saveFile')
-  saveTrackTask({ mdl, track: state.track }).fork(onError, onSuccess)
+  saveTrackTask({ mdl: attrs.mdl, track: attrs.state.track }).fork(onError, onSuccess)
 
 }
 
@@ -69,7 +73,6 @@ const load = ({ mdl }) => {
   const onSuccess = (tracks) => {
     homeState.tracks = tracks
     homeState.status = 'loaded'
-    console.log('loaded')
   }
 
   const onError = log('home-fetchTracksTask')
@@ -81,77 +84,82 @@ const load = ({ mdl }) => {
 
 export const Home = ({ attrs: { mdl } }) => {
   load({ mdl })
-
   return {
-    view: ({ attrs: { mdl } }) =>
-      m('ion-page',
-        m('ion-header', m('ion-toolbar', m("label.file-upload", {
-          slot: "end",
-          for: 'audio-upload'
-        }, m('input#audio-upload', {
-          onchange: handleAudioUpload({ homeState }),
-          name: 'file',
-          label: "Select a File",
-          labelPlacement: "stacked",
-          type: "file",
-          accept: ["audio/*"],
-          style: { width: '150px' },
-        }), 'Add Audio')
-        )),
-        m('ion-content',
+    view: ({ attrs: { mdl } }) => m('ion-page',
+      m('ion-header', m('ion-toolbar', m("label.file-upload", {
+        slot: "end",
+        for: 'audio-upload'
+      }, m('input#audio-upload', {
+        onchange: handleAudioUpload({ homeState }),
+        name: 'file',
+        label: "Select a File",
+        labelPlacement: "stacked",
+        type: "file",
+        accept: ["audio/*"],
+        style: { width: '150px' },
+      }), 'Add Audio')
+      )),
+      m('ion-content',
 
-          homeState.status == 'loading'
-            ? m('label.row.items-center.column.items-center.justify-center.column.justify-center', m('ion-spinner', { style: { width: '100px', height: '100px' }, name: 'dots' }), 'Fetching Tracks')
-            : isEmpty(homeState.tracks)
-              ? m('.row.justify-center.items-center', { style: { height: '100dvh' } }, m('ion-card', {
-                color: 'light',
-                style: { width: '50dvw' }
-              },
-                m('ion-card-header',
-                  m('ion-card-title', 'Add an Audio File to begin.'),
+        homeState.status == 'loading'
+          ? m('label.row.items-center.column.items-center.justify-center.column.justify-center', m('ion-spinner', { style: { width: '100px', height: '100px' }, name: 'dots' }), 'Fetching Tracks')
+          : isEmpty(homeState.tracks)
+            ? m('.row.justify-center.items-center', { style: { height: '100dvh' } }, m('ion-card', {
+              color: 'light',
+              style: { width: '50dvw' }
+            },
+              m('ion-card-header',
+                m('ion-card-title', 'Add an Audio File to begin.'),
 
-                  m("label.file-upload", {
-                    for: 'audio-upload-two'
-                  }, m('input#audio-upload-two', {
-                    onchange: handleAudioUpload({ homeState }),
-                    name: 'file',
-                    label: "Select a File",
-                    labelPlacement: "stacked",
-                    type: "file",
-                    accept: ["audio/*"],
-                  }), 'Add Audio'
-                  )
-                ))
+                m("label.file-upload", {
+                  for: 'audio-upload-two'
+                }, m('input#audio-upload-two', {
+                  onchange: handleAudioUpload({ homeState }),
+                  name: 'file',
+                  label: "Select a File",
+                  labelPlacement: "stacked",
+                  type: "file",
+                  accept: ["audio/*"],
+                }), 'Add Audio'
+                )
+              ))
+
+            )
+            :
+            m("ion-list",
+              homeState.tracks.map(item => m("ion-item",
+                m("ion-thumbnail", { slot: "start" },
+                  m("img", { src: "your-image-url" })
+                ),
+                m("ion-label", item.name),
+                m("ion-button", {
+                  slot: "end",
+                  fill: "clear",
+                  color: "primary",
+                },
+                  m("ion-icon", { slot: "icon-only", name: "information-circle-outline", onclick: e => deleteItem({ item }) })
+                ),
+                m('ion-button', {
+                  slot: "end", fill: "clear",
+                  onclick: selectItem({ objectId: item.objectId })
+                },
+                  m("ion-icon", {
+
+                    name: "chevron-forward-outline"
+                  }))
 
               )
-              :
-              m("ion-list",
-                homeState.tracks.map(item => m("ion-item",
-                  m("ion-thumbnail", { slot: "start" },
-                    m("img", { src: "your-image-url" })
-                  ),
-                  m("ion-label", item.name),
-                  m("ion-button", {
-                    slot: "end",
-                    fill: "clear",
-                    color: "primary",
-                  },
-                    m("ion-icon", { slot: "icon-only", name: "information-circle-outline", onclick: e => deleteItem({ item }) })
-                  ),
-                  m('ion-button', {
-                    slot: "end", fill: "clear",
-                    onclick: selectItem({ objectId: item.objectId })
-                  },
-                    m("ion-icon", {
-
-                      name: "chevron-forward-outline"
-                    }))
-
-                )
-                )
               )
-        ),
-        homeState.showModal && m(Modal, { mdl, state: homeState, onConfirm: saveFile, onCancel: dismissModal, reset: resetModalState },
+            )
+      ),
+      homeState.showModal ?
+        m(Modal, {
+          mdl,
+          onConfirm: saveFile,
+          onCancel: closeModal,
+          onCreated: created,
+          state: homeState,
+        },
 
           homeState.status == 'saving' && m('label.row.items-center.column.items-center.justify-center.column.justify-center', m('ion-spinner', { style: { width: '100px', height: '100px' }, name: 'dots' }), 'Saving Track'),
 
@@ -168,8 +176,8 @@ export const Home = ({ attrs: { mdl } }) => {
               oninput: ({ target: { value } }) => homeState.track.name = value
             }),
 
-          ))),
+          ))) : null,
 
-      ),
+    )
   }
 }

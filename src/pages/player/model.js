@@ -3,8 +3,17 @@ import Timeline from 'wavesurfer.js/dist/plugins/timeline.esm.js'
 import Regions from 'wavesurfer.js/dist/plugins/regions.esm.js'
 import Task from 'data.task'
 import http from '@/utils/http'
-import { randomColor } from '@/utils/index'
+import { randomColor, log } from '@/utils/index'
 import { compose, prop } from 'ramda'
+import { openModal } from './modal.js'
+import { addRegion } from '@/components/wave'
+
+
+export const uploadRegionTask = (attrs) => region =>
+    http.B4A.postTask(attrs.mdl)('regions')(region)
+
+export const uploadImageTask = (mdl, imageDto) =>
+    http.B4A.postTask(mdl)('images')(imageDto)
 
 export const onWSTimeUpdate = ({ playerState }) => (currentTime) => {
     playerState.currentTime = currentTime
@@ -36,14 +45,14 @@ export const onWSInteraction = ({ playerState }) =>
         m.redraw()
     }
 
-export const onWSZoom = _ => ({ audioState, minPxPerSec }) => {
-    audioState.ws.mdl.zoom(minPxPerSec)
+export const onWSZoom = ({ playerState }) => ({ minPxPerSec }) => {
+    playerState.ws.mdl.zoom(minPxPerSec)
     m.redraw()
 }
 
 
 export const initTimeLine = ({ attrs, waveState, dom }) => {
-    attrs.audioState.ws = waveState
+    attrs.playerState.ws = waveState
     waveState.timeline = waveState.mdl.registerPlugin(Timeline.create({
         height: 10,
         insertPosition: 'beforebegin',
@@ -76,45 +85,73 @@ export const initRegions = ({ attrs, waveState, dom }) => {
     waveState.mdl.regions.on('region-clicked', (region, e) => {
         e.stopPropagation() // prevent triggering a click on the waveform
         attrs.playerState.activeRegions = region
-        region.play()
+        // region.play()
         region.setOptions({ color: randomColor() })
         attrs.playerState.activeRegions = region
-        m.redraw()
+        //   m.redraw()
     })
+
+    const isNewRegion = attrs =>
+        !attrs.playerState.regions.map(r => r.id).includes(attrs.playerState.newRegionId)
+
+
+    const handleImageUpload = ({ playerState }) => ({ target: { files } }) => {
+        const file = files[0]
+        getImageSrcNameSizeFromFile({ file })
+            .then(({ img }) => {
+                playerState.img = { ...newImageDto(playerState), ...img }
+                return { playerState }
+            })
+            .then(openModal)
+    }
+
+    const createRegion = (attrs, waveState) => region => {
+        attrs.playerState.newRegionId = region.id
+
+        if (isNewRegion(attrs)) {
+            const input = document.createElement('input')
+            input.type = 'file'
+            input.accept = "image/*,video/*"
+            input.onchange = handleImageUpload({ playerState: attrs.playerState })
+            input.click()
+        }
+    }
+
+    waveState.mdl.regions.on('region-created', createRegion(attrs, waveState))
+
     return { attrs, waveState, dom }
 }
 
 const findImageFromRegion = ({ images }) => region => {
-    const imageDto = images.find(image => image.uuid == region.content['data-uuid'])
+    const imageDto = images.find(image => image.objectId == region.content['data-objectId'])
 
     return { imageDto, region }
 }
 
 
-const reinsertRegion = ({ mdl }) => ({ imageDto, region }) => {
+const reinsertRegion = ({ mdl }) => ({ imageDto, region }) =>
     addRegion({ mdl, imageDto, options: region })
-    console.log(mdl)
-}
+
 
 const insertSavedRegion = ({ mdl, images }) => compose(reinsertRegion({ mdl }), findImageFromRegion({ images }))
 
 export const onDecoded = ({ attrs, waveState, dom }) => {
     waveState.mdl.on('decode', () => {
-        attrs.audioState.ws.status = 'loaded'
+        attrs.playerState.ws.status = 'loaded'
     })
     return { attrs, waveState, dom }
 }
 
 export const onLoaded = ({ attrs, waveState, dom }) => {
     waveState.mdl.on('ready', () => {
-        attrs.playerState.regions.forEach(insertSavedRegion({ mdl: attrs.mdl, images: attrs.playerState.images }))
+        attrs.playerState.regions.forEach(insertSavedRegion({ mdl: waveState.mdl, images: attrs.playerState.images }))
         attrs.playerState.status = 'loaded'
         waveState.status = 'loaded'
     })
     return ({ attrs, waveState, dom })
 }
 
-const byTrackId = ({ objectId }) => ({ trackId: { __type: "Pointer", className: "Tracks", objectId: `${objectId}` } })
+export const byTrackObjectId = ({ objectId }) => ({ __type: "Pointer", className: "Tracks", objectId: `${objectId}` })
 
 
 export const newImageDto = ({ trackObjectId }) => ({
@@ -125,6 +162,7 @@ export const newImageDto = ({ trackObjectId }) => ({
     height: 0, // height of the image
     trackObjectId
 })
+
 
 export const getImageSrcNameSizeFromFile = ({ file }) => {
     return new Promise((res, rej) => {
@@ -143,7 +181,7 @@ export const getImageSrcNameSizeFromFile = ({ file }) => {
 }
 
 const byWhereClause = ({ objectId }) =>
-    `?where=${encodeURIComponent(JSON.stringify(byTrackId({ objectId })))}`
+    `?where=${encodeURIComponent(JSON.stringify(byTrackObjectId({ objectId })))}`
 
 
 const fetchAudioTask = ({ mdl }) => http.B4A.getTask(mdl)(`tracks/${mdl.currentTrackId}`).map(prop('results'))
