@@ -24,7 +24,7 @@ const waveState = {
     status: 'loading',
     mdl: null,
     events: {
-        onWSTimeUpdate: log('onWSTimeUpdate'),
+        onWSTimeUpdate: () => { }, //log('onWSTimeUpdate'),
         onWSeeking: log('onWSeeking'),
         onWSInteraction: log('onWSInteraction'),
         onWSplay: log('onWSplay'),
@@ -32,7 +32,7 @@ const waveState = {
         onWSfinish: log('onWSfinish'),
         onWSclick: log('onWSclick'),
         onWSdrag: log('onWSdrag'),
-        onWSscroll: log('onWSscroll'),
+        onWSscroll: () => { }, //log('onWSscroll'),
         onWSzoom: () => { },//log('onWSzoom')
     },
     options: {
@@ -88,13 +88,13 @@ const initWaveSurfer = ({ dom, attrs, waveState }) => new Promise((res) => {
     return res({ dom, attrs, waveState })
 })
 
-const initWaveOptions = ({ waveOptions }) =>
+const initWaveOptions = ({ waveOptions }) => {
     waveState.options = { ...waveState.options, ...waveOptions }
-
+    waveState.events = { ...waveState.events, ...waveOptions.events }
+}
 
 export const Wave = ({ attrs: { waveOptions } }) => {
     initWaveOptions({ waveOptions })
-
     return {
         oncreate: ({ dom, attrs }) => attrs.onCreated(initWaveSurfer({ dom, attrs, waveState })),
         view: () =>

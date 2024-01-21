@@ -23,6 +23,7 @@ export const onWSTimeUpdate = ({ playerState }) => (currentTime) => {
     }
 
     playerState.activeRegions = playerState.regions.filter(currentlyPlayingRegions)
+
     m.redraw()
 }
 

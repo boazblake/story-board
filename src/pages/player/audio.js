@@ -31,12 +31,12 @@ export const Audio = ({ attrs: { mdl, playerState } }) => {
                 onWSTimeUpdate: onWSTimeUpdate({ mdl, playerState }),
                 onWSeeking: onWSeeking({ mdl, playerState }),
                 onWSInteraction: onWSInteraction({ mdl, playerState }),
-                onWSPlay: () => m.redraw(),
-                onWSPause: () => m.redraw(),
-                onWSFinish: () => m.redraw(),
-                onWSClick: () => m.redraw(),
-                onWSDrag: () => m.redraw(),
-                onWSScroll: () => log('onWSscroll'),
+                onWSPlay: log('onWSPlay'),
+                onWSPause: log('onWSPause'),
+                onWSFinish: log('onWSFinish'),
+                onWSClick: log('onWSClick'),
+                onWSDrag: log('onWSDrag'),
+                onWSScroll: log('onWSscroll'),
                 onWSZoom: onWSZoom({ mdl, playerState })
             }
         }
