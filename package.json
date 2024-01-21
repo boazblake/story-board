@@ -2,7 +2,7 @@
   "name": "stroy-board",
   "version": "0.0.1",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite process.env.NODE_ENV=dev",
     "build": "rm -rf docs; vite build",
     "preview": "vite preview"
   },

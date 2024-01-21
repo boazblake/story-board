@@ -90,9 +90,9 @@ const getTask = (mdl) => (url) => HttpTask("GET")(mdl)(url)(null)
 //       "Cache-Control": "public, max-age=604800",
 //     }
 
-//const prod = "https://bonhamacres.cyclic.app/api"
+const prod = "https://story-book-api.cyclic.app/api"
 const dev = "http://localhost:2001/api"
-const proxy = dev//process.env.NODE_ENV ? dev : prod
+const proxy = process.env.NODE_ENV ? dev : prod
 
 const B4A = {
     getTask: (mdl) => (url) => HttpTask("GET")(mdl)(`${proxy}/${url}`)(null),
