@@ -8,18 +8,18 @@
   integrity sha512-bZBrLAIX1kpWelV0XemxBZllyRmM6vgFQQG2GdNb+r3Fkp0FOh1NJSvekXDs7jq70k4euu1cryLMfU+mTXlEpw==
 
 "@ionic/core@^7.6.3":
-  version "7.6.4"
-  resolved "https://feed.appdev.empyreanbenefits.com/npm/DefaultNPM/@ionic/core/-/core-7.6.4.tgz#b1ce9f8fa8565105c36b4d7496a5a7992cf9f6cf"
-  integrity sha512-9BGksEmvA/upb5Oup+joOam7y4pSBGCxYekWnTx8PiYur04ZYjGSZ0Vz3dQRyqj7rF+MwUV9iUGd3qz/bslkSw==
+  version "7.6.5"
+  resolved "https://feed.appdev.empyreanbenefits.com/npm/DefaultNPM/@ionic/core/-/core-7.6.5.tgz#eeedea68f2abd1c075c8642c5967840f611aa205"
+  integrity sha512-koyPrPMTZ8ZbB9O0VN4KaX9yIMCXQTi2bGTGYUvOoboyx/TaXshi4wX1POII5E80TW2I1HH5YIGq8ZaFAOot/Q==
   dependencies:
-    "@stencil/core" "^4.9.1"
+    "@stencil/core" "^4.10.0"
     ionicons "^7.2.2"
     tslib "^2.1.0"
 
-"@stencil/core@^4.0.3", "@stencil/core@^4.9.1":
-  version "4.9.1"
-  resolved "https://feed.appdev.empyreanbenefits.com/npm/DefaultNPM/@stencil/core/-/core-4.9.1.tgz#955451027e4aeb429ee8cddf95b62c9bf939c8a7"
-  integrity sha512-FB3vQR2xbX8RkiKdvBRj6jAe2VunKgB4U5hWSbpdcg/GhZrwOhsEgkGUGa8hGm9bgEUpIu16in1zFqziPyBEFw==
+"@stencil/core@^4.0.3", "@stencil/core@^4.10.0":
+  version "4.10.0"
+  resolved "https://feed.appdev.empyreanbenefits.com/npm/DefaultNPM/@stencil/core/-/core-4.10.0.tgz#cafdaee8e1120912b9ab028d7b76fbdcc5ba2af4"
+  integrity sha512-7lDTPY1IxXN2/C+wQPHt3e/dYgY4YgelA8MxOsU3ZftXtpzWad/QNWhSAtKisJMrSjQh41jMDOgD0yLBwV6E7w==
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -331,9 +331,9 @@ tslib@^2.1.0:
   integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
 
 vite@^2.6.2:
-  version "2.9.16"
-  resolved "https://feed.appdev.empyreanbenefits.com/npm/DefaultNPM/vite/-/vite-2.9.16.tgz#daf7ba50f5cc37a7bf51b118ba06bc36e97898e9"
-  integrity sha512-X+6q8KPyeuBvTQV8AVSnKDvXoBMnTx8zxh54sOwmmuOdxkjMmEJXH2UEchA+vTMps1xw9vL64uwJOWryULg7nA==
+  version "2.9.17"
+  resolved "https://feed.appdev.empyreanbenefits.com/npm/DefaultNPM/vite/-/vite-2.9.17.tgz#6b770525e12fa2a2e3a0fa0d028d304f4f7dc7d4"
+  integrity sha512-XxcRzra6d7xrKXH66jZUgb+srThoPu+TLJc06GifUyKq9JmjHkc1Numc8ra0h56rju2jfVWw3B3fs5l3OFMvUw==
   dependencies:
     esbuild "^0.14.27"
     postcss "^8.4.13"
@@ -343,9 +343,9 @@ vite@^2.6.2:
     fsevents "~2.3.2"
 
 wavesurfer.js@^7.6.0:
-  version "7.6.4"
-  resolved "https://feed.appdev.empyreanbenefits.com/npm/DefaultNPM/wavesurfer.js/-/wavesurfer.js-7.6.4.tgz#37257a84500ab5061eb70e38d400b3c6d7266b1f"
-  integrity sha512-ZpGOHzFeShTD02OoXNSoo9hfHM7awPckNjlRuCbLb9eKcHTJB8tEE+REkNOwJKJ46uo0cT7VeRbMlVvKgzUV/w==
+  version "7.6.5"
+  resolved "https://feed.appdev.empyreanbenefits.com/npm/DefaultNPM/wavesurfer.js/-/wavesurfer.js-7.6.5.tgz#7d9df410507f46de4eb4b09e3b3284f0c30bb41f"
+  integrity sha512-N3VjoD01i99g8zRY8TbZTZakpV+ZYlbdXX09M7NIrEXYjcWXh91MIuAczKa5LOUetz/B52Ly/glKNH2WUY4UWA==
 
 wrappy@1:
   version "1.0.2"

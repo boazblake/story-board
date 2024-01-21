@@ -1,4 +1,4 @@
-import {defineConfig} from "vite"
+import { defineConfig } from "vite"
 import path from "path"
 
 export default defineConfig({
@@ -9,7 +9,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {outDir: "docs"},
+  build: { outDir: "docs" },
   server: {
     port: 2000,
     open: true,
