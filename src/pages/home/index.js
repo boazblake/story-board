@@ -95,7 +95,7 @@ export const Home = ({ attrs: { mdl } }) => {
         label: "Select a File",
         labelPlacement: "stacked",
         type: "file",
-        accept: ["audio/*"],
+        accept: ["audio/*,video/*"],
         style: { width: '150px' },
       }), 'Add Audio')
       )),
