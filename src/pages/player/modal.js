@@ -16,7 +16,7 @@ const newImageDto = ({ trackObjectId }) => ({ size: 0, width: 100, height: 140, 
 
 
 const resetForm = (attrs) => {
-    attrs.state.img = newImageDto({ trackObjectId: attrs.state.currentTrackId })
+    attrs.state.img = newImageDto({ trackObjectId: attrs.state.trackObjectId })
     if (attrs.state.fileInput) attrs.state.fileInput.value = ""
 }
 
@@ -26,11 +26,13 @@ const closeModal = attrs => {
     attrs.state.showModal = false
 }
 
-const updateRegionWithImage = (attrs, imageDto) => ({ results: { objectId } }) => {
+const updateRegionWithImageAndTrackObjectId = (attrs, imageDto) => ({ results: { objectId } }) => {
     imageDto.objectId = objectId
     attrs.state.images.push(imageDto)
     const region = attrs.state.ws.mdl.regions.regions.find(r => r.id == attrs.state.newRegionId)
     region.setContent(canvasRepresentationOfImage({ imageDto }))
+    region.trackObjectId =  byTrackObjectId({ objectId: attrs.state.trackObjectId })
+    console.log(region)
     attrs.state.regions.push(region)
     return region
 }
@@ -48,7 +50,7 @@ const saveFile = (attrs) => {
     }
 
     uploadImageTask(attrs.mdl, imageDto)
-        .map(updateRegionWithImage(attrs, imageDto))
+        .map(updateRegionWithImageAndTrackObjectId(attrs, imageDto))
         .chain(uploadRegionTask(attrs))
         .fork(log('e'), onSuccess)
 

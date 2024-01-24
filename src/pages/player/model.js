@@ -152,7 +152,7 @@ export const onLoaded = ({ attrs, waveState, dom }) => {
     return ({ attrs, waveState, dom })
 }
 
-export const byTrackObjectId = ({ objectId }) => ({ __type: "Pointer", className: "Tracks", objectId: `${objectId}` })
+export const byTrackObjectId = ({ objectId }) => ({ "__type": "Pointer", "className": "Tracks", "objectId": `${objectId}` })
 
 
 export const newImageDto = ({ trackObjectId }) => ({
@@ -181,20 +181,21 @@ export const getImageSrcNameSizeFromFile = ({ file }) => {
     })
 }
 
-const byWhereClause = ({ objectId }) =>
-    `?where=${encodeURIComponent(JSON.stringify(byTrackObjectId({ objectId })))}`
-
-
 const fetchAudioTask = ({ mdl }) => http.B4A.getTask(mdl)(`tracks/${mdl.currentTrackId}`).map(prop('results'))
 
-const fetchImagesTask = ({ mdl }) => http.B4A.getTask(mdl)(`images/${byWhereClause({ objectId: mdl.currentTrackId })}`).map(prop('results'))
+const fetchImagesByTrackObjectIdTask = ({ mdl }) =>
+    http.B4A.getTask(mdl)
+        (`images/byTrackObjectId/${mdl.currentTrackId}`)
+        .map(prop('results'))
 
 
-const fetchRegionsTask = ({ mdl }) => http.B4A.getTask(mdl)(`regions/${byWhereClause({ objectId: mdl.currentTrackId })}`).map(prop('results'))
+const fetchRegionsByTrackObjectIdTask = ({ mdl }) => http.B4A.getTask(mdl)
+    (`regions/byTrackObjectId/${mdl.currentTrackId}`)
+    .map(prop('results'))
 
 
 export const fetchAudioImagesAndRegions = ({ mdl }) =>
     Task.of(audio => images => regions => ({ audio, images, regions }))
         .ap(fetchAudioTask({ mdl }))
-        .ap(fetchImagesTask({ mdl }))
-        .ap(fetchRegionsTask({ mdl }))
+        .ap(fetchImagesByTrackObjectIdTask({ mdl }))
+        .ap(fetchRegionsByTrackObjectIdTask({ mdl }))

@@ -92,7 +92,7 @@ const getTask = (mdl) => (url) => HttpTask("GET")(mdl)(url)(null)
 
 const prod = "https://story-book-api.cyclic.app/api"
 const dev = "http://localhost:2001/api"
-const proxy = prod
+const proxy = dev
 //process.env.NODE_ENV ? dev :
 
 const B4A = {
